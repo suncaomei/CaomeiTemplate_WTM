@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +5,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Options;
 using WalkingTec.Mvvm.Core;
 using WalkingTec.Mvvm.Core.Extensions;
 
@@ -169,11 +170,10 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
         /// </summary>
         public int CheckboxIndex { get; set; }
 
-        /// <summary>
-        /// 设定容器高度 默认值：'auto' 若height>=0采用 '固定值' 模式，若height 小于 0 采用 'full-差值' 模式
-        /// <para>固定值: 设定一个数字，用于定义容器高度，当容器中的内容超出了该高度时，会自动出现纵向滚动条</para>
-        /// <para>full-差值: 高度将始终铺满，无论浏览器尺寸如何。这是一个特定的语法格式，其中 full 是固定的，而 差值 则是一个数值，这需要你来预估，比如：表格容器距离浏览器顶部和底部的距离“和” <para>
-        /// </summary>
+        /// <summary> 设定容器高度 默认值：'auto' 若height>=0采用 '固定值' 模式，若height 小于 0 采用 'full-差值' 模式
+        /// <para>固定值: 设定一个数字，用于定义容器高度，当容器中的内容超出了该高度时，会自动出现纵向滚动条</para> <para>full-差值:
+        /// 高度将始终铺满，无论浏览器尺寸如何。这是一个特定的语法格式，其中 full 是固定的，而 差值 则是一个数值，这需要你来预估，比如：表格容器距离浏览器顶部和底部的距离“和”
+        /// <para> </summary>
         public int? Height { get; set; }
 
         /// <summary>
@@ -184,8 +184,7 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
         public int? LineHeight { get; set; }
 
         /// <summary>
-        /// 设定容器宽度 默认值：'auto'
-        /// table容器的默认宽度是 auto，你可以借助该参数设置一个固定值，当容器中的内容超出了该宽度时，会自动出现横向滚动条。
+        /// 设定容器宽度 默认值：'auto' table容器的默认宽度是 auto，你可以借助该参数设置一个固定值，当容器中的内容超出了该宽度时，会自动出现横向滚动条。
         /// </summary>
         public int? Width { get; set; }
 
@@ -198,7 +197,7 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
 
         /// <summary>
         /// Http Request Method 默认 GET
-        /// <para>如果无需自定义HTTP类型，可不加该参数 <see cref="HttpMethodEnum" /></para>
+        /// <para> 如果无需自定义HTTP类型，可不加该参数 <see cref="HttpMethodEnum" /> </para>
         /// </summary>
         public HttpMethodEnum? Method { get; set; }
 
@@ -209,7 +208,7 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
 
         /// <summary>
         /// 直接赋值数据
-        /// <para>你也可以对表格直接赋值，而无需配置异步数据请求接口。他既适用于只展示一页数据，也非常适用于对一段已知数据进行多页展示。</para>
+        /// <para> 你也可以对表格直接赋值，而无需配置异步数据请求接口。他既适用于只展示一页数据，也非常适用于对一段已知数据进行多页展示。 </para>
         /// </summary>
         public ModelExpression Data { get; set; }
 
@@ -220,26 +219,23 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
 
         /// <summary>
         /// 数据渲染完的回调
-        /// <para>无论是异步请求数据，还是直接赋值数据，都会触发该回调。你可以利用该回调做一些表格以外元素的渲染。</para>
-        /// <para>res:    如果是异步请求数据方式，res即为你接口返回的信息。</para>
-        /// <para>        如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度</para>
-        /// <para>curr:   得到当前页码</para>
-        /// <para>count:  得到数据总量</para>
+        /// <para> 无论是异步请求数据，还是直接赋值数据，都会触发该回调。你可以利用该回调做一些表格以外元素的渲染。 </para>
+        /// <para> res:    如果是异步请求数据方式，res即为你接口返回的信息。 </para>
+        /// <para> 如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度 </para>
+        /// <para> curr:   得到当前页码 </para>
+        /// <para> count:  得到数据总量 </para>
         /// </summary>
         public string DoneFunc { get; set; }
 
         /// <summary>
-        /// 复选框选中事件
-        /// 点击复选框时触发，回调函数返回一个object参数，携带的成员如下：
-        /// obj.checked //当前是否选中状态
-        /// obj.data    //选中行的相关数据
-        /// obj.type    //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        /// 复选框选中事件 点击复选框时触发，回调函数返回一个object参数，携带的成员如下： obj.checked //当前是否选中状态 obj.data //选中行的相关数据
+        /// obj.type //如果触发的是全选，则为：all，如果触发的是单选，则为：one
         /// </summary>
         public string CheckedFunc { get; set; }
 
         /// <summary>
         /// 每页数据量可选项
-        /// <para>默认值：[10, 20, 50, 80, 100, 150, 200]</para>
+        /// <para> 默认值：[10, 20, 50, 80, 100, 150, 200] </para>
         /// </summary>
         public int[] Limits { get; set; }
 
@@ -250,7 +246,7 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
 
         /// <summary>
         /// 是否显示加载条 默认 true
-        /// <para>如果设置 false，则在切换分页时，不会出现加载条。该参数只适用于“异步数据请求”的方式（即设置了url的情况下）</para>
+        /// <para> 如果设置 false，则在切换分页时，不会出现加载条。该参数只适用于“异步数据请求”的方式（即设置了url的情况下） </para>
         /// </summary>
         public bool? Loading { get; set; }
 
@@ -261,7 +257,7 @@ namespace WalkingTec.Mvvm.TagHelpers.LayUI
 
         /// <summary>
         /// 隔行背景，默认true
-        /// <para>若不开启隔行背景，设置为false即可</para>
+        /// <para> 若不开启隔行背景，设置为false即可 </para>
         /// </summary>
         public bool? Even { get; set; }
 
@@ -602,7 +598,7 @@ layui.use(['table'], function(){{
         recordtext:'{THProgram._localizer["Sys.Record"]}',
         gototext:'{THProgram._localizer["Sys.Goto"]}',
         pagetext:'{THProgram._localizer["Sys.Page"]}',
-        oktext:'{THProgram._localizer["Sys.OK"]}',
+        oktext:'{THProgram._localizer["Sys.GotoButtonText"]}',
     }}" : ",page:false")}
     {(page ? $",limit:{Limit}" : $",limit:{(UseLocalData ? ListVM.GetEntityList().Count().ToString() : "0")}")}
     {(page
@@ -623,6 +619,7 @@ layui.use(['table'], function(){{
       if(res.Code != undefined && res.Code != 200){{ layui.layer.alert(res.Msg,{{title:'{THProgram._localizer["Sys.Error"]}'}});}}
      var tab = $('#{Id} + .layui-table-view');tab.find('table').css('border-collapse','separate');
       {(Height == null ? $"tab.css('overflow','hidden').addClass('donotuse_fill donotuse_pdiv');tab.children('.layui-table-box').addClass('donotuse_fill donotuse_pdiv').css('height','100px');tab.find('.layui-table-main').addClass('donotuse_fill');tab.find('.layui-table-header').css('min-height','{maxDepth * 38}px');ff.triggerResize();" : string.Empty)}
+      {(LineHeight.HasValue == true ? $"tab.find('td .layui-table-cell').css('height','{LineHeight}px')" : string.Empty)}
       {(MultiLine == true ? $"tab.find('.layui-table-cell').css('height','auto').css('white-space','normal');" : string.Empty)}
        tab.find('div [lay-event=\'LAYTABLE_COLS\']').attr('title','{THProgram._localizer["Sys.ColumnFilter"]}');
        tab.find('div [lay-event=\'LAYTABLE_PRINT\']').attr('title','{THProgram._localizer["Sys.Print"]}');
@@ -763,13 +760,13 @@ setTimeout(function(){{
         /// <summary>
         /// 添加按钮
         /// </summary>
-        /// <param name="vmQualifiedName"></param>
-        /// <param name="rowBtnStrBuilder"></param>
-        /// <param name="toolBarBtnStrBuilder"></param>
-        /// <param name="gridBtnEventStrBuilder"></param>
-        /// <param name="vm"></param>
-        /// <param name="item"></param>
-        /// <param name="isSub"></param>
+        /// <param name="vmQualifiedName">        </param>
+        /// <param name="rowBtnStrBuilder">       </param>
+        /// <param name="toolBarBtnStrBuilder">   </param>
+        /// <param name="gridBtnEventStrBuilder"> </param>
+        /// <param name="vm">                     </param>
+        /// <param name="item">                   </param>
+        /// <param name="isSub">                  </param>
         private void AddSubButton(
             string vmQualifiedName,
             StringBuilder rowBtnStrBuilder,

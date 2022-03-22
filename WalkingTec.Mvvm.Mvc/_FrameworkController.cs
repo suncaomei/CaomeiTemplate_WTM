@@ -112,9 +112,9 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// 获取分页数据
         /// </summary>
-        /// <param name="_DONOT_USE_VMNAME"></param>
-        /// <param name="_DONOT_USE_CS"></param>
-        /// <returns></returns>
+        /// <param name="_DONOT_USE_VMNAME"> </param>
+        /// <param name="_DONOT_USE_CS">     </param>
+        /// <returns> </returns>
         [HttpPost]
         [ActionDescription("GetPagingData")]
         public IActionResult GetPagingData(string _DONOT_USE_VMNAME, string _DONOT_USE_CS)
@@ -150,11 +150,11 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// 单元格编辑
         /// </summary>
-        /// <param name="_DONOT_USE_VMNAME"></param>
-        /// <param name="id">实体主键</param>
-        /// <param name="field">属性名</param>
-        /// <param name="value">属性值</param>
-        /// <returns></returns>
+        /// <param name="_DONOT_USE_VMNAME"> </param>
+        /// <param name="id">                实体主键 </param>
+        /// <param name="field">             属性名 </param>
+        /// <param name="value">             属性值 </param>
+        /// <returns> </returns>
         [HttpPost]
         public IActionResult UpdateModelProperty(string _DONOT_USE_VMNAME, Guid id, string field, string value)
         {
@@ -173,9 +173,9 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// Download Excel
         /// </summary>
-        /// <param name="_DONOT_USE_VMNAME"></param>
-        /// <param name="_DONOT_USE_CS"></param>
-        /// <returns></returns>
+        /// <param name="_DONOT_USE_VMNAME"> </param>
+        /// <param name="_DONOT_USE_CS">     </param>
+        /// <returns> </returns>
         [HttpPost]
         [ActionDescription("Export")]
         public IActionResult GetExportExcel(string _DONOT_USE_VMNAME, string _DONOT_USE_CS = "default")
@@ -218,7 +218,7 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// Download Excel Template
         /// </summary>
-        /// <returns></returns>
+        /// <returns> </returns>
         [HttpGet]
         [ActionDescription("DownloadTemplate")]
         public IActionResult GetExcelTemplate(string _DONOT_USE_VMNAME, string _DONOT_USE_CS = "default")
@@ -487,8 +487,8 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// 移除没有权限访问的菜单
         /// </summary>
-        /// <param name="menus">菜单列表</param>
-        /// <param name="info">用户信息</param>
+        /// <param name="menus"> 菜单列表 </param>
+        /// <param name="info">  用户信息 </param>
         private void RemoveUnAccessableMenu(List<Menu> menus, LoginUserInfo info)
         {
             if (menus == null)
@@ -531,7 +531,7 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// RemoveEmptyMenu
         /// </summary>
-        /// <param name="menus"></param>
+        /// <param name="menus"> </param>
         private void RemoveEmptyMenu(List<Menu> menus)
         {
             if (menus == null)
@@ -571,9 +571,9 @@ namespace WalkingTec.Mvvm.Mvc
         /// <summary>
         /// genreate menu
         /// </summary>
-        /// <param name="menus"></param>
-        /// <param name="resultMenus"></param>
-        /// <param name="quickDebug"></param>
+        /// <param name="menus">       </param>
+        /// <param name="resultMenus"> </param>
+        /// <param name="quickDebug">  </param>
         private void GenerateMenuTree(List<SimpleMenu> menus, List<Menu> resultMenus, bool quickDebug = false)
         {
             resultMenus.AddRange(menus.Where(x => x.ParentId == null).Select(x => new Menu()
@@ -745,8 +745,7 @@ namespace WalkingTec.Mvvm.Mvc
             //画验证码
             for (int i = 0; i < chkCode.Length; i++)
             {
-                string fnt = font[rnd.Next(font.Length)];
-                Font ft = new Font(SystemFonts.Find(fnt), fontSize);
+                Font ft = new Font(SystemFonts.Families.First(), fontSize);
                 Color clr = color[rnd.Next(color.Length)];
                 bmp.Mutate(x => x.DrawText(chkCode[i].ToString(), ft, clr, new PointF((float)i * 18, (float)0)));
             }

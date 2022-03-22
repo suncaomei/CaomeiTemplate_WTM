@@ -24,18 +24,18 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 查询数据源，并转化成TreeSelectListItem列表
         /// </summary>
-        /// <typeparam name="T">数据源类型</typeparam>
-        /// <param name="baseQuery">基础查询</param>
-        /// <param name="wtmcontext">wtm context</param>
-        /// <param name="textField">表达式用来获取Text字段对应的值</param>
-        /// <param name="valueField">表达式用来获取Value字段对应的值，不指定则默认使用Id字段</param>
-        /// <param name="iconField">表达式用来获取icon字段对应的值</param>
-        /// <param name="urlField">表达式用来获取Url字段对应的值</param>
-        /// <param name="tagField">表达式用来获取Tag字段对应的值</param>
-        /// <param name="expandField">表达式用来获取Expanded字段对应的值，指示节点是否展开</param>
-        /// <param name="ignorDataPrivilege">忽略数据权限判断</param>
-        /// <param name="SortByName">是否根据Text字段排序，默认为是</param>
-        /// <returns>SelectListItem列表</returns>
+        /// <typeparam name="T"> 数据源类型 </typeparam>
+        /// <param name="baseQuery">          基础查询 </param>
+        /// <param name="wtmcontext">         wtm context </param>
+        /// <param name="textField">          表达式用来获取Text字段对应的值 </param>
+        /// <param name="valueField">         表达式用来获取Value字段对应的值，不指定则默认使用Id字段 </param>
+        /// <param name="iconField">          表达式用来获取icon字段对应的值 </param>
+        /// <param name="urlField">           表达式用来获取Url字段对应的值 </param>
+        /// <param name="tagField">           表达式用来获取Tag字段对应的值 </param>
+        /// <param name="expandField">        表达式用来获取Expanded字段对应的值，指示节点是否展开 </param>
+        /// <param name="ignorDataPrivilege"> 忽略数据权限判断 </param>
+        /// <param name="SortByName">         是否根据Text字段排序，默认为是 </param>
+        /// <returns> SelectListItem列表 </returns>
         public static List<TreeSelectListItem> GetTreeSelectListItems<T>(this IQueryable<T> baseQuery
             , WTMContext wtmcontext
             , Expression<Func<T, string>> textField
@@ -175,14 +175,14 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 查询数据源，并转化成SelectListItem列表
         /// </summary>
-        /// <typeparam name="T">数据源类型</typeparam>
-        /// <param name="baseQuery">基础查询</param>
-        /// <param name="wtmcontext">Wtm Context</param>
-        /// <param name="textField">SelectListItem中Text字段对应的值</param>
-        /// <param name="valueField">SelectListItem中Value字段对应的值，默认为Id列</param>
-        /// <param name="ignorDataPrivilege">忽略数据权限判断</param>
-        /// <param name="SortByName">是否根据Text字段排序，默认为是</param>
-        /// <returns>SelectListItem列表</returns>
+        /// <typeparam name="T"> 数据源类型 </typeparam>
+        /// <param name="baseQuery">          基础查询 </param>
+        /// <param name="wtmcontext">         Wtm Context </param>
+        /// <param name="textField">          SelectListItem中Text字段对应的值 </param>
+        /// <param name="valueField">         SelectListItem中Value字段对应的值，默认为Id列 </param>
+        /// <param name="ignorDataPrivilege"> 忽略数据权限判断 </param>
+        /// <param name="SortByName">         是否根据Text字段排序，默认为是 </param>
+        /// <returns> SelectListItem列表 </returns>
         public static List<ComboSelectListItem> GetSelectListItems<T>(this IQueryable<T> baseQuery
             , WTMContext wtmcontext
             , Expression<Func<T, string>> textField
@@ -267,11 +267,11 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 拼接本表的数据权限过滤
         /// </summary>
-        /// <typeparam name="T">数据类</typeparam>
-        /// <param name="query">源query</param>
-        /// <param name="wtmcontext">Wtm context</param>
-        /// <param name="dps">数据权限列表</param>
-        /// <returns>拼接好where条件的query</returns>
+        /// <typeparam name="T"> 数据类 </typeparam>
+        /// <param name="query">      源query </param>
+        /// <param name="wtmcontext"> Wtm context </param>
+        /// <param name="dps">        数据权限列表 </param>
+        /// <returns> 拼接好where条件的query </returns>
         private static IQueryable<T> AppendSelfDPWhere<T>(IQueryable<T> query, WTMContext wtmcontext, List<SimpleDataPri> dps) where T : TopBasePoco
         {
             var dpsSetting = wtmcontext?.DataPrivilegeSettings;
@@ -293,15 +293,15 @@ namespace WalkingTec.Mvvm.Core.Extensions
                     var ids = dps.Where(x => x.TableName == query.ElementType.Name).Select(x => x.RelateId).ToList();
                     if (ids == null || ids.Count() == 0)
                     {
-                        if (isBasePoco == true)
-                        {
-                            var selfexp = Expression.Equal(Expression.Property(pe, "CreateBy"), Expression.Constant(wtmcontext.LoginUserInfo?.ITCode));
-                            query = query.Where(Expression.Lambda<Func<T, bool>>(selfexp, pe));
-                        }
-                        else
-                        {
-                            query = query.Where(Expression.Lambda<Func<T, bool>>(Expression.NotEqual(Expression.Constant(1), Expression.Constant(1)), pe));
-                        }
+                        //if (isBasePoco == true)
+                        //{
+                        //    var selfexp = Expression.Equal(Expression.Property(pe, "CreateBy"), Expression.Constant(wtmcontext.LoginUserInfo?.ITCode));
+                        //    query = query.Where(Expression.Lambda<Func<T, bool>>(selfexp, pe));
+                        //}
+                        //else
+                        //{
+                        query = query.Where(Expression.Lambda<Func<T, bool>>(Expression.NotEqual(Expression.Constant(1), Expression.Constant(1)), pe));
+                        //}
                     }
                     else
                     {
@@ -318,11 +318,11 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 为查询语句添加关联表的权限过滤
         /// </summary>
-        /// <typeparam name="T">源数据类</typeparam>
-        /// <param name="baseQuery">源Query</param>
-        /// <param name="wtmcontext"></param>
-        /// <param name="IdFields">关联表外键</param>
-        /// <returns>修改后的查询语句</returns>
+        /// <typeparam name="T"> 源数据类 </typeparam>
+        /// <param name="baseQuery">  源Query </param>
+        /// <param name="wtmcontext"> </param>
+        /// <param name="IdFields">   关联表外键 </param>
+        /// <returns> 修改后的查询语句 </returns>
         //public static IQueryable<T> DPWhere<T>(this IQueryable<T> baseQuery, WTMContext wtmcontext, params Expression<Func<T, object>>[] IdFields) where T : TopBasePoco
         //{
         //    var dps = wtmcontext?.LoginUserInfo?.DataPrivileges;
@@ -365,11 +365,11 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 为查询语句添加关联表的权限过滤
         /// </summary>
-        /// <typeparam name="T">源数据类</typeparam>
-        /// <param name="baseQuery">源Query</param>
-        /// <param name="wtmcontext">wtm context</param>
-        /// <param name="IdFields">关联表外键</param>
-        /// <returns>修改后的查询语句</returns>
+        /// <typeparam name="T"> 源数据类 </typeparam>
+        /// <param name="baseQuery">  源Query </param>
+        /// <param name="wtmcontext"> wtm context </param>
+        /// <param name="IdFields">   关联表外键 </param>
+        /// <returns> 修改后的查询语句 </returns>
         public static IQueryable<T> DPWhere<T>(this IQueryable<T> baseQuery, WTMContext wtmcontext, params Expression<Func<T, object>>[] IdFields) where T : TopBasePoco
         {
             var dps = wtmcontext?.LoginUserInfo?.DataPrivileges;
@@ -706,12 +706,12 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// val不为空时，附加查询条件
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="S"></typeparam>
-        /// <param name="baseQuery"></param>
-        /// <param name="val"></param>
-        /// <param name="where"></param>
-        /// <returns></returns>
+        /// <typeparam name="T"> </typeparam>
+        /// <typeparam name="S"> </typeparam>
+        /// <param name="baseQuery"> </param>
+        /// <param name="val">       </param>
+        /// <param name="where">     </param>
+        /// <returns> </returns>
         public static IQueryable<T> CheckWhere<T, S>(this IQueryable<T> baseQuery, S val, Expression<Func<T, bool>> where)
         {
             if (val == null)
@@ -738,11 +738,11 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 条件为true时，附加查询条件
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="baseQuery"></param>
-        /// <param name="val">bool?</param>
-        /// <param name="where"></param>
-        /// <returns></returns>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="baseQuery"> </param>
+        /// <param name="val">       bool? </param>
+        /// <param name="where">     </param>
+        /// <returns> </returns>
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> baseQuery, bool? val, Expression<Func<T, bool>> where)
         {
             if (val == null || val == false)
@@ -902,10 +902,10 @@ where S : struct
         /// <summary>
         /// 通过模型和模型的某个List属性的名称来判断List的字表中关联到主表的主键名称
         /// </summary>
-        /// <typeparam name="T">主表Model</typeparam>
-        /// <param name="self">DataContext</param>
-        /// <param name="listFieldName">主表中的子表List属性名称</param>
-        /// <returns>主键名称</returns>
+        /// <typeparam name="T"> 主表Model </typeparam>
+        /// <param name="self">          DataContext </param>
+        /// <param name="listFieldName"> 主表中的子表List属性名称 </param>
+        /// <returns> 主键名称 </returns>
         public static string GetFKName<T>(this IDataContext self, string listFieldName) where T : class
         {
             return GetFKName(self, typeof(T), listFieldName);
@@ -914,10 +914,10 @@ where S : struct
         /// <summary>
         /// 通过模型和模型的某个List属性的名称来判断List的字表中关联到主表的主键名称
         /// </summary>
-        /// <param name="self">DataContext</param>
-        /// <param name="sourceType">主表model类型</param>
-        /// <param name="listFieldName">主表中的子表List属性名称</param>
-        /// <returns>主键名称</returns>
+        /// <param name="self">          DataContext </param>
+        /// <param name="sourceType">    主表model类型 </param>
+        /// <param name="listFieldName"> 主表中的子表List属性名称 </param>
+        /// <returns> 主键名称 </returns>
         public static string GetFKName(this IDataContext self, Type sourceType, string listFieldName)
         {
             try
@@ -941,10 +941,10 @@ where S : struct
         /// <summary>
         /// 通过子表模型和模型关联到主表的属性名称来判断该属性对应的主键名称
         /// </summary>
-        /// <typeparam name="T">子表Model</typeparam>
-        /// <param name="self">DataContext</param>
-        /// <param name="FieldName">关联主表的属性名称</param>
-        /// <returns>主键名称</returns>
+        /// <typeparam name="T"> 子表Model </typeparam>
+        /// <param name="self">      DataContext </param>
+        /// <param name="FieldName"> 关联主表的属性名称 </param>
+        /// <returns> 主键名称 </returns>
         public static string GetFKName2<T>(this IDataContext self, string FieldName) where T : class
         {
             return GetFKName2(self, typeof(T), FieldName);
@@ -953,10 +953,10 @@ where S : struct
         /// <summary>
         /// 通过模型和模型关联到主表的属性名称来判断该属性对应的主键名称
         /// </summary>
-        /// <param name="self">DataContext</param>
-        /// <param name="sourceType">子表model类型</param>
-        /// <param name="FieldName">关联主表的属性名称</param>
-        /// <returns>主键名称</returns>
+        /// <param name="self">       DataContext </param>
+        /// <param name="sourceType"> 子表model类型 </param>
+        /// <param name="FieldName">  关联主表的属性名称 </param>
+        /// <returns> 主键名称 </returns>
         public static string GetFKName2(this IDataContext self, Type sourceType, string FieldName)
         {
             try
@@ -1051,8 +1051,8 @@ where S : struct
         /// <summary>
         /// 开始一个事务，当使用同一IDataContext时，嵌套的两个事务不会引起冲突，当嵌套的事务执行时引起的异常会通过回滚方法向上层抛出异常
         /// </summary>
-        /// <param name="self">DataContext</param>
-        /// <returns>可用的事务实例</returns>
+        /// <param name="self"> DataContext </param>
+        /// <returns> 可用的事务实例 </returns>
         public static Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction BeginTransaction(this IDataContext self)
         {
             if (self == null)
@@ -1067,9 +1067,9 @@ where S : struct
         /// <summary>
         /// 开始一个事务，当使用同一IDataContext时，嵌套的两个事务不会引起冲突，当嵌套的事务执行时引起的异常会通过回滚方法向上层抛出异常
         /// </summary>
-        /// <param name="self">DataContext</param>
-        /// <param name="isolationLevel"></param>
-        /// <returns>可用的事务实例</returns>
+        /// <param name="self">           DataContext </param>
+        /// <param name="isolationLevel"> </param>
+        /// <returns> 可用的事务实例 </returns>
         public static Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction BeginTransaction(this IDataContext self, System.Data.IsolationLevel isolationLevel)
         {
             if (self == null)

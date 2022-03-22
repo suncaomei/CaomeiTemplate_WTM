@@ -2170,11 +2170,20 @@ namespace WalkingTec.Mvvm.Mvc
                     var item = pros[i];
                     var mpro = modelType.GetSingleProperty(item.FieldName);
                     string render = "";
+                    string render2 = "Sortable=\"true\"";
                     string template = "";
                     string newname = item.FieldName;
                     if (mpro.PropertyType.IsBoolOrNullableBool())
                     {
                         render = "ComponentType=\"@typeof(Switch)\"";
+                        if (mpro.PropertyType.IsNullable())
+                        {
+                            render = "ComponentType=\"@typeof(NullSwitch)\"";
+                        }
+                        else
+                        {
+                            render = "ComponentType=\"@typeof(Switch)\"";
+                        }
                     }
                     if (mpro.PropertyType == typeof(DateTime) || mpro.PropertyType == typeof(DateTime?))
                     {
@@ -2220,12 +2229,12 @@ namespace WalkingTec.Mvvm.Mvc
                     if (template == "")
                     {
                         fieldstr.Append($@"
-        <TableColumn @bind-Field=""@context.{newname}"" {render} />");
+        <TableColumn @bind-Field=""@context.{newname}"" {render} {render2}/>");
                     }
                     else
                     {
                         fieldstr.Append($@"
-        <TableColumn @bind-Field=""@context.{newname}"" {render} >
+        <TableColumn @bind-Field=""@context.{newname}"" {render} {render2}>
 {template}
         </TableColumn>");
                     }
@@ -2237,6 +2246,7 @@ namespace WalkingTec.Mvvm.Mvc
                     string sitems = "";
                     string bindfield = "";
                     string ph = "";
+                    string render = "";
                     var item = pros2[i];
                     if (item.SubField == "`file")
                     {
@@ -2276,11 +2286,11 @@ namespace WalkingTec.Mvvm.Mvc
                         {
                             if (controltype == "Select")
                             {
-                                apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                apis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                             }
                             else
                             {
-                                multiapis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                multiapis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                             }
                         }
                     }
@@ -2310,15 +2320,16 @@ namespace WalkingTec.Mvvm.Mvc
                         }
                         else if (checktype == typeof(DateTime))
                         {
-                            controltype = "WTDateRange";
+                            controltype = "WTDateRange ";
                         }
                     }
                     if (controltype == "Select" || controltype == "MultiSelect")
                     {
                         ph = "PlaceHolder=\"@WtmBlazor.Localizer[\"Sys.All\"]\"";
+                        render = "ShowSearch=\"true\"";
                     }
                     fieldstr2.Append($@"
-            <{controltype} @bind-Value=""@SearchModel.{bindfield}"" {sitems} {ph}/>");
+            <{controltype} @bind-Value=""@SearchModel.{bindfield}"" {sitems} {render} {ph}/>");
                 }
 
                 StringBuilder apiinit = new StringBuilder();
@@ -2359,6 +2370,7 @@ namespace WalkingTec.Mvvm.Mvc
                     string sitems = "";
                     string bindfield = "";
                     string ph = "";
+                    string render = "";
                     var property = modelType.GetSingleProperty(item.FieldName);
 
                     if (string.IsNullOrEmpty(item.RelatedField) == false)
@@ -2408,11 +2420,11 @@ namespace WalkingTec.Mvvm.Mvc
                             {
                                 if (controltype == "Select")
                                 {
-                                    apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    apis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                                 }
                                 else
                                 {
-                                    multiapis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    multiapis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                                 }
                             }
                         }
@@ -2427,7 +2439,14 @@ namespace WalkingTec.Mvvm.Mvc
                         }
                         if (checktype == typeof(bool))
                         {
-                            controltype = "Switch";
+                            if (proType.IsNullable())
+                            {
+                                controltype = "NullSwitch";
+                            }
+                            else
+                            {
+                                controltype = "Switch";
+                            }
                         }
                         else if (checktype.IsEnum())
                         {
@@ -2448,7 +2467,13 @@ namespace WalkingTec.Mvvm.Mvc
                     if (controltype == "Select" || controltype == "MultiSelect")
                     {
                         ph = "PlaceHolder=\"@WtmBlazor.Localizer[\"Sys.PleaseSelect\"]\"";
+                        render = "ShowSearch=\"true\"";
                     }
+                    if (controltype == "DateTimePicker")
+                    {
+                        render = "ViewModel=\"DatePickerViewModel.DateTime\"";
+                    }
+
                     if (controltype == "Transfer")
                     {
                         fieldstr.Append($@"
@@ -2459,7 +2484,7 @@ namespace WalkingTec.Mvvm.Mvc
                     else
                     {
                         fieldstr.Append($@"
-            <{controltype} @bind-Value=""@Model.{bindfield}"" {sitems} {ph}/>");
+            <{controltype} @bind-Value=""@Model.{bindfield}"" {sitems} {render} {ph}/>");
                     }
                 }
 
@@ -2500,6 +2525,7 @@ namespace WalkingTec.Mvvm.Mvc
                     string sitems = "";
                     string bindfield = "";
                     string ph = "";
+                    string render = "";
                     var property = modelType.GetSingleProperty(item.FieldName);
 
                     if (string.IsNullOrEmpty(item.RelatedField) == false)
@@ -2549,11 +2575,11 @@ namespace WalkingTec.Mvvm.Mvc
                             {
                                 if (controltype == "Select")
                                 {
-                                    apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    apis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                                 }
                                 else
                                 {
-                                    multiapis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    multiapis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                                 }
                             }
                         }
@@ -2568,7 +2594,14 @@ namespace WalkingTec.Mvvm.Mvc
                         }
                         if (checktype == typeof(bool))
                         {
-                            controltype = "Switch";
+                            if (proType.IsNullable())
+                            {
+                                controltype = "NullSwitch";
+                            }
+                            else
+                            {
+                                controltype = "Switch";
+                            }
                         }
                         else if (checktype.IsEnum())
                         {
@@ -2589,7 +2622,13 @@ namespace WalkingTec.Mvvm.Mvc
                     if (controltype == "Select" || controltype == "MultiSelect")
                     {
                         ph = "PlaceHolder=\"@WtmBlazor.Localizer[\"Sys.PleaseSelect\"]\"";
+                        render = "ShowSearch=\"true\"";
                     }
+                    if (controltype == "DateTimePicker")
+                    {
+                        render = "ViewModel=\"DatePickerViewModel.DateTime\"";
+                    }
+
                     if (controltype == "Transfer")
                     {
                         fieldstr.Append($@"
@@ -2600,7 +2639,7 @@ namespace WalkingTec.Mvvm.Mvc
                     else
                     {
                         fieldstr.Append($@"
-            <{controltype} @bind-Value=""@Model.{bindfield}"" {sitems} {ph}/>");
+            <{controltype} @bind-Value=""@Model.{bindfield}"" {sitems} {render} {ph}/>");
                     }
                 }
 
@@ -2680,7 +2719,7 @@ namespace WalkingTec.Mvvm.Mvc
                             sitems = $"Lookup=\"@{tempname}\"";
                             if (apis.ContainsKey(tempname) == false)
                             {
-                                apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                apis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
                             }
                         }
                     }
@@ -2694,7 +2733,14 @@ namespace WalkingTec.Mvvm.Mvc
                         }
                         if (checktype == typeof(bool))
                         {
-                            controltype = "Switch";
+                            if (proType.IsNullable())
+                            {
+                                controltype = "NullSwitch";
+                            }
+                            else
+                            {
+                                controltype = "Switch";
+                            }
                             disabled = "IsDisabled=\"true\"";
                         }
                     }

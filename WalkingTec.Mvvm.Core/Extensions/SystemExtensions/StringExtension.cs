@@ -15,8 +15,8 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 根据名字获取Id形式
         /// </summary>
-        /// <param name="fieldName">名字</param>
-        /// <returns>将[].转换成_形式的Id</returns>
+        /// <param name="fieldName"> 名字 </param>
+        /// <returns> 将[].转换成_形式的Id </returns>
         public static string GetIdByName(this string fieldName)
         {
             return fieldName == null ? "" : fieldName.Replace(".", "_").Replace("[", "_").Replace("]", "_");
@@ -25,8 +25,8 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 格式化URL
         /// </summary>
-        /// <param name="url">初始url</param>
-        /// <returns>格式化后的url</returns>
+        /// <param name="url"> 初始url </param>
+        /// <returns> 格式化后的url </returns>
         public static string CorrectUrl(this string url)
         {
             if (string.IsNullOrWhiteSpace(url) == true)
@@ -48,13 +48,13 @@ namespace WalkingTec.Mvvm.Core.Extensions
         /// <summary>
         /// 将数据列表转化为逗号分隔的字符串
         /// </summary>
-        /// <typeparam name="T">源数据类</typeparam>
-        /// <typeparam name="V">文本字段</typeparam>
-        /// <param name="self">源数据List</param>
-        /// <param name="textField">要拼接的文本字段</param>
-        /// <param name="Format">转化文本字段的表达式</param>
-        /// <param name="seperator">分隔符，默认为逗号</param>
-        /// <returns>转化后的字符串</returns>
+        /// <typeparam name="T"> 源数据类 </typeparam>
+        /// <typeparam name="V"> 文本字段 </typeparam>
+        /// <param name="self">      源数据List </param>
+        /// <param name="textField"> 要拼接的文本字段 </param>
+        /// <param name="Format">    转化文本字段的表达式 </param>
+        /// <param name="seperator"> 分隔符，默认为逗号 </param>
+        /// <returns> 转化后的字符串 </returns>
         public static string ToSepratedString<T, V>(this IEnumerable<T> self, Expression<Func<T, V>> textField, Func<V, string> Format = null, string seperator = ",")
         {
             string rv = "";
@@ -107,7 +107,7 @@ namespace WalkingTec.Mvvm.Core.Extensions
                 var s = "";
                 if (Format == null)
                 {
-                    s = item.ToString();
+                    s = item?.ToString() ?? "";
                 }
                 else
                 {
