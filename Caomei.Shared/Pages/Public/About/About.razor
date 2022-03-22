@@ -1,0 +1,21 @@
+﻿@page "/About"
+@inherits BasePage
+@attribute [Public]
+@layout PublicLayout
+
+<Title Text="@Title"></Title>
+
+<CulturePage @bind-Model="@model" MainPageType="@this.GetType()" />
+
+
+@code {
+    private string model;
+    public string Title { get; set; }
+    protected override void OnInitialized()
+    {
+        Title = $"Caomei - {WtmBlazor.Localizer["Public.About"]}";
+        base.OnInitialized();
+
+    }
+
+ }

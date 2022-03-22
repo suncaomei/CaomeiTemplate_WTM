@@ -1,0 +1,15 @@
+﻿{
+  "name": "Caomei",
+  "short_name": "Caomei",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#03173d",
+  "icons": [
+    {
+      "src": "pwaicon.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}

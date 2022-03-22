@@ -1,0 +1,161 @@
+﻿@inherits LayoutComponentBase
+@inject WtmBlazorContext wtmblazor;
+@inject IJSRuntime JSRuntime;
+@using System.Globalization
+@inject NavigationManager NavigationManager;
+
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+                <img src="_content/Caomei.Shared/images/logo.svg" alt="" height="32">
+                <span class="fs-4">Caomei</span>
+            </a>
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 text-dark text-decoration-none" href="/About">@wtmblazor.Localizer["Public.About"]</a>
+                <a class="me-3 py-2 text-dark text-decoration-none dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    @SelectedCulture
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a @onclick="@(x=>SetCulture("zh"))" class="dropdown-item"><span class="nav-link-text">简体中文</span></a>
+                    </li>
+                    <li>
+                        <a @onclick="@(x=>SetCulture("en"))" class="dropdown-item"><span class="nav-link-text">English</span></a>
+                    </li>
+                </ul>
+                @{
+                    if (UserInfo is not null)
+                    {
+                                <a class="me-3 py-2 text-dark text-decoration-none dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @(UserInfo is not null ? UserInfo.Name :string.Empty)
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="/Admin">@wtmblazor.Localizer["Sys.BackHome"]</a>
+                                    </li>
+                            @if (wtmblazor.ConfigInfo.IsQuickDebug == true)
+                            {
+                                            <li>
+                                                <a class="dropdown-item" target="_blank" href="/swagger">@wtmblazor.Localizer["Sys.ApiDoc"]</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" target="_blank" href="/_codegen?ui=blazor">@wtmblazor.Localizer["Sys.CodeGen"]</a>
+                                            </li>
+                            }
+                                    <li>
+                                        <a @onclick="@Show" class="dropdown-item">@wtmblazor.Localizer["Sys.ChangePassword"]</a>
+                                    </li>
+                                    <li>
+                                        <a @onclick="async ()=>await DeleteToken() " class="dropdown-item">@wtmblazor.Localizer["Sys.LogOut"]</a>
+
+                                    </li>
+                                </ul>
+                    }
+                    else
+                    {
+                                <a class="me-3 py-2 text-dark text-decoration-none" href="/Login">@wtmblazor.Localizer["Sys.Login"]/@wtmblazor.Localizer["Sys.Register"]</a>
+                    }
+                }
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        @Body
+    </main>
+
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">@wtmblazor.Localizer["Sys.Index"]</a></li>
+            <li class="nav-item"><a href="About" class="nav-link px-2 text-muted">@wtmblazor.Localizer["Public.About"]</a></li>
+        </ul>
+        <p class="text-center text-muted">&copy; @(DateTime.Now.Year) Caomei Inc   <a href="https://beian.miit.gov.cn/">冀ICP备18001095号-4</a></p>
+
+
+    </footer>
+
+</div>
+
+
+
+<Toast />
+<Dialog />
+<PopoverConfirm />
+<Message />
+<SweetAlert />
+@code {
+    [CascadingParameter]
+    public LoginUserInfo UserInfo
+    {
+        get;
+        set;
+    }
+    private string SelectedCulture
+    {
+        get
+        {
+            if (CultureInfo.CurrentUICulture.Name.Contains("zh"))
+            {
+                return "简体中文";
+            }
+            if (CultureInfo.CurrentUICulture.Name.Contains("en"))
+            {
+                return "English";
+            }
+            return CultureInfo.CurrentUICulture.Name;
+        }
+    }
+
+    /// <summary>
+    /// OnInitialized 方法
+    /// </summary>
+    protected override async Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+
+    }
+    public async Task DeleteToken()
+    {
+        await JSRuntime.InvokeAsync<string>("localStorageFuncs.remove", "wtmtoken");
+        await JSRuntime.InvokeAsync<string>("localStorageFuncs.remove", "wtmrefreshtoken");
+        await JSRuntime.InvokeAsync<string>("window.urlFuncs.refresh");
+    }
+    private async Task Show()
+    {
+        await wtmblazor.OpenDialog<Password>(wtmblazor.Localizer["Sys.ChangePassword"], size: Size.Small, userinfo: UserInfo);
+    }
+    //private async Task SetCulture(string Value)
+    //{
+    //    var cultureName = Value;
+    //    if (cultureName != CultureInfo.CurrentUICulture.Name)
+    //    {
+    //        await JSRuntime.InvokeAsync<string>("localStorageFuncs.set", "wtmculture", Value);
+    //        var culture = new CultureInfo(cultureName);
+    //        CultureInfo.CurrentCulture = culture;
+    //        CultureInfo.CurrentUICulture = culture;
+    //        var uri = new Uri(NavigationManager.Uri)
+    //                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+    //        var query = $"?culture={Uri.EscapeDataString(Value)}&" +
+    //            $"redirect={Uri.EscapeDataString(uri)}";
+    //        NavigationManager.NavigateTo("/_framework/SetLanguageForBlazor" + query, forceLoad: true);
+    //    }
+    //}
+    private async Task SetCulture(string Value)
+    {
+        var cultureName = Value;
+        if (cultureName != CultureInfo.CurrentUICulture.Name)
+        {
+            await JSRuntime.InvokeAsync<string>("localStorageFuncs.set", "wtmculture", Value);
+            var culture = new CultureInfo(cultureName);
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+            var query = $"?culture={Uri.EscapeDataString(Value)}";
+            await wtmblazor.Api.CallAPI("/_framework/SetLanguageForBlazor" + query);
+            await JSRuntime.InvokeVoidAsync("urlFuncs.refresh");
+        }
+    }
+
+
+}      

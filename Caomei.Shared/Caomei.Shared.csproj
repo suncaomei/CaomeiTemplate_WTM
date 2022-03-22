@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" Version="6.3.4" />
+    <PackageReference Include="BootstrapBlazor.Chart" Version="6.0.0" />
+    <PackageReference Include="BootstrapBlazor.Markdown" Version="6.0.0" />
+    <ProjectReference Include="..\Caomei.ViewModel\Caomei.ViewModel.csproj" />
+  </ItemGroup>
+</Project>
+

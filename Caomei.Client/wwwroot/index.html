@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>Caomei</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta content="bootstrap,blazor,wasm,webassembly,UI,netcore,web,assembly" name="Keywords">
+    <base href="/">
+    <link rel="icon" href="_content/Caomei.Shared/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="_content/Caomei.Shared/favicon.ico" type="image/x-icon">
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="144x144" href="pwaicon.png" />
+    <link href="_content/Caomei.Shared/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css">
+    <link rel="stylesheet" href="_content/Caomei.Shared/css/site.css">
+    <link rel="stylesheet" href="_content/Caomei.Shared/css/loading.css">
+    <link rel="stylesheet" href="_content/Caomei.Shared/font/iconfont.css">
+    <link rel="stylesheet" href="Caomei.styles.css">
+    <link rel="stylesheet" href="_content/BootstrapBlazor.Chart/css/bootstrap.blazor.chart.bundle.min.css" />
+    <link rel="stylesheet" href="_content/BootstrapBlazor.Markdown/css/bootstrap.blazor.markdown.min.css" />
+</head>
+
+<body class="overflow-hidden">
+    <app></app>
+
+    <div class="loader" id="loading">
+        <div class="youling">
+            <div class="youlingBody"></div>
+            <div class="youlingEye left"></div>
+            <div class="youlingEye right"></div>
+            <div class="youlingMouth"></div>
+            <div class="youlingWave"></div>
+            <div class="youlingshadow"></div>
+        </div>
+
+        <div class="intro">
+            <img src="_content/Caomei.Shared/images/logo.svg" />
+            <span>精彩即将呈现</span>
+        </div>
+        <div class="bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            发生了一个错误。在重新加载之前，此应用程序可能不再响应。
+        </environment>
+        <environment include="Development">
+            发生了未处理的异常。有关详细信息，请参见浏览器开发工具。
+        </environment>
+        <a href="" class="reload">刷新</a>
+        <a class="dismiss"><i class="fa fa-times"></i></a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script type="module">
+        import { BrotliDecode } from './decode.min.js';
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
+                    return (async function () {
+                        const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        const originalResponseBuffer = await response.arrayBuffer();
+                        const originalResponseArray = new Int8Array(originalResponseBuffer);
+                        const decompressedResponseArray = BrotliDecode(originalResponseArray);
+                        const contentType = type ===
+                            'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
+                        return new Response(decompressedResponseArray,
+                            { headers: { 'content-type': contentType } });
+                    })();
+                }
+            }
+        });
+    </script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
+    <script src="_content/Caomei.Shared/js/common.js"></script>
+    <script src="_content/BootstrapBlazor.Chart/js/bootstrap.blazor.chart.bundle.min.js"></script>
+    <script src="_content/BootstrapBlazor.Markdown/js/bootstrap.blazor.markdown.min.js"></script>
+</body>
+</html>

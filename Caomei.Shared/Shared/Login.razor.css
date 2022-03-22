@@ -1,0 +1,79 @@
+.app-layout-login {
+    min-height: 100vh;
+    height: auto;
+}
+
+.login-layout {
+    min-height: 500px;
+    transition: background-image.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-content {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex: auto;
+}
+
+.login-form {
+    padding: 40px;
+    box-sizing: border-box;
+    min-height: 400px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.14);
+    transition: all .2s;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20rem;
+}
+
+    .login-form h1 {
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 20px;
+        margin: 0;
+        padding: 0;
+        font-family: "PingFangSC-Regular";
+        list-style: none;
+        text-decoration: none;
+    }
+
+    .login-form img {
+        display: table-cell; /*主要是这个属性*/
+
+        vertical-align: middle;
+        text-align: center;
+    }
+
+@media (max-width: 644px) {
+    .login-form {
+        padding: 40px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.14);
+        transition: all .2s;
+        min-width: 0;
+        min-height: 0;
+        margin: auto;
+    }
+}
+
+.login-header {
+    background: transparent;
+    padding: 30px;
+    height: auto;
+    line-height: initial;
+    margin: 0 auto;
+}
+
+.app-login-back {
+    background-color: white;
+    background-attachment: fixed;
+    background-size: cover;
+}

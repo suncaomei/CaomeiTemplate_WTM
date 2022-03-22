@@ -1,0 +1,91 @@
+﻿@page "/login"
+@using Caomei.ViewModel.HomeVMs
+@inherits BasePage
+@inject NavigationManager NavigationManager
+
+<Title Text="@Title"></Title>
+
+<div class="d-flex flex-column app-layout-login ">
+    <div class="flex-fill  login-layout app-login-back">
+        <header class="login-header">
+            <a href="/">
+                <img src="_content/Caomei.Shared/images/logo.svg" alt="" height="48">
+            </a>
+        </header>
+        <div class="login-content">
+            <div class="login-form">
+                <h1>登录</h1>
+                <ValidateForm Model="@Model" OnValidSubmit="@Submit">
+                    <BootstrapInput @bind-Value="@Model.ITCode" />
+                    <BootstrapInput @bind-Value="@Model.Password" type="password" />
+                    <Button ButtonType="ButtonType.Submit" Text="@WtmBlazor.Localizer["Sys.Login"]" style="width:100%;margin-top:20px;" IsAsync="true" />
+                    <Button Text="@WtmBlazor.Localizer["Sys.Register"]" style="width:100%;margin-top:20px;" IsAsync="true" OnClick="Reg" />
+                </ValidateForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<Toast />
+
+@code { [Parameter]
+    public bool? LoginSuccess { get; set; }
+    [Parameter]
+    public EventCallback<bool?> LoginSuccessChanged { get; set; }
+    [Parameter]
+    public EventCallback OnUserInfoSet { get; set; }
+    public string Title { get; set; }
+
+    private LoginVM Model = new LoginVM();
+
+    protected override void OnInitialized()
+    {
+        if (WtmBlazor.ConfigInfo.IsQuickDebug == true)
+        {
+            Model.ITCode = "admin";
+            Model.Password = "000000";
+        }
+        Title = $"Caomei - {WtmBlazor.Localizer["Sys.Login"]}";
+
+        base.OnInitialized();
+    }
+
+    private async Task Submit(EditContext context)
+    {
+        var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/Account/loginjwt", HttpMethodEnum.POST, new { Account = Model.ITCode, Password = Model.Password });
+        if (rv.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var token = rv.Data.Fields["access_token"].ToString();
+            var rtoken = rv.Data.Fields["refresh_token"].ToString();
+            await SetToken(token, rtoken);
+            var userinfo = await WtmBlazor.Api.CallAPI<LoginUserInfo>("/api/Account/CheckUserInfo", HttpMethodEnum.GET, new { });
+
+            if (userinfo.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                await SetUserInfo(userinfo.Data);
+                await OnUserInfoSet.InvokeAsync();
+                await LoginSuccessChanged.InvokeAsync(true);
+            }
+            else
+            {
+                await WtmBlazor.Message(rv.Errors?.Message[0], Color.Danger);
+            }
+
+        }
+        else
+        {
+            await WtmBlazor.Message(rv.Errors?.Message[0], Color.Danger);
+
+        }
+    }
+
+    private void Reg()
+    {
+        NavigationManager.NavigateTo("/Reg");
+
+    } }
+
+

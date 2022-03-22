@@ -1,0 +1,15 @@
+using WalkingTec.Mvvm.Core;
+using System.ComponentModel.DataAnnotations;
+$othernamespace$
+
+namespace $vmnamespace$
+{
+    public partial class $classname$Searcher : BaseSearcher
+    {$pros$
+
+        protected override void InitVM()
+        {$init$
+        }
+
+    }
+}

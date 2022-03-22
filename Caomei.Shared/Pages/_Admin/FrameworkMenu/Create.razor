@@ -1,0 +1,114 @@
+@page "/Admin/FrameworkMenu/Create"
+@using WalkingTec.Mvvm.Mvc.Admin.ViewModels.FrameworkMenuVMs
+@using WalkingTec.Mvvm.Core.Extensions
+@inherits BasePage
+
+
+<ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit">
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+        <Select @bind-Value="@Model.Entity.IsInside" Items="@AllType" ShowSearch="true"/>
+    </Row>
+    @if (Model.Entity.IsInside != false)
+    {
+        <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+            <Select @bind-Value="@Model.SelectedModule" Items="@AllModels" OnSelectedItemChanged="OnModelChange" ShowSearch="true"/>
+            <div></div>
+            <Row ColSpan="2">
+                <Transfer @bind-Value="@Model.SelectedActionIDs" Items="@AllActions" />
+            </Row>
+        </Row>
+    }
+    else
+    {
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Normal">
+            <BootstrapInput @bind-Value="@Model.Entity.Url" />
+        </Row>
+    }
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+        <BootstrapInput @bind-Value="@Model.Entity.PageName" />
+        <Select @bind-Value="@Model.Entity.ParentId" Items="@AllFolders" ShowSearch="true"/>
+        <Select @bind-Value="@SelectedIconType" Items="@IconTypes" OnSelectedItemChanged="OnIconChange" DisplayText="@WtmBlazor.Localizer["Sys.IconFont"]" ShowSearch="true"/>
+        <Select TValue="string" @bind-Value="@Model.Entity.Icon" Items="@Icons" ShowSearch="true">
+            <ItemTemplate>
+                <div class="dropdown-item-demo">
+                    <i class="@context.Value"></i>
+                    <span>@context.Text</span>
+                </div>
+            </ItemTemplate>
+        </Select>
+        <BootstrapInputNumber @bind-Value="@Model.Entity.DisplayOrder" />
+    </Row>
+    <Row ItemsPerRow="ItemsPerRow.Four" RowType="RowType.Normal">
+        <Switch @bind-Value="@Model.Entity.ShowOnMenu" />
+        <Switch @bind-Value="@Model.Entity.FolderOnly" />
+        <Switch @bind-Value="@Model.Entity.IsPublic" />
+    </Row>
+    <div class="modal-footer table-modal-footer">
+        <Button Color="Color.Primary" Icon="fa fa-save" Text="@WtmBlazor.Localizer["Sys.Close"]" OnClick="OnClose" />
+        <Button Color="Color.Primary" ButtonType="ButtonType.Submit" Icon="fa fa-save" Text="@WtmBlazor.Localizer["Sys.Create"]" IsAsync="true" />
+    </div>
+</ValidateForm>
+
+@code {
+    private FrameworkMenuVM2 Model = new FrameworkMenuVM2();
+    private List<SelectedItem> AllType = new List<SelectedItem>();
+    private List<SelectedItem> AllModels = new List<SelectedItem>();
+    private List<SelectedItem> AllFolders = new List<SelectedItem>();
+    private List<SelectedItem> AllActions = new List<SelectedItem>();
+    private List<SelectedItem> IconTypes = new List<SelectedItem>();
+    private List<SelectedItem> Icons = new List<SelectedItem>();
+    private List<FrameworkMenu> ClientPages;
+    public string SelectedIconType { get; set; } = "";
+    private ValidateForm vform { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model.Entity = new FrameworkMenu { ShowOnMenu = true, IsInside = true };
+        AllType.Add(new SelectedItem { Text = WtmBlazor.Localizer["Sys.Inside"], Value = "True" });
+        AllType.Add(new SelectedItem { Text = WtmBlazor.Localizer["Sys.Outside"], Value = "False" });
+        AllFolders = await WtmBlazor.Api.CallItemsApi("/api/FrameworkMenu/GetFolders", placeholder: WtmBlazor.Localizer["Sys.PleaseSelect"]);
+        IconTypes = await WtmBlazor.Api.CallItemsApi("/api/FrameworkMenu/GetIcons", placeholder: WtmBlazor.Localizer["Sys.PleaseSelect"]);
+        ClientPages = WtmBlazor.GetAllPages();
+        AllModels.Add(new SelectedItem { Text = WtmBlazor.Localizer["Sys.PleaseSelect"], Value = "" });
+        foreach (var item in ClientPages)
+        {
+            foreach (var sub in item.Children)
+            {
+                AllModels.Add(new SelectedItem { Text = sub.PageName, Value = sub.ClassName ?? sub.Url, GroupName = item.PageName });
+            }
+        }
+    }
+
+    private async Task OnModelChange(SelectedItem item)
+    {
+        var url = ClientPages.FlatTree().Where(x => x.ClassName == item.Value || x.Url == item.Value).Select(x => x.Url).FirstOrDefault();
+        AllActions = await WtmBlazor.Api.CallItemsApi($"/api/FrameworkMenu/GetActionsByModel?ModelName={item.Value}");
+        Model.Entity.Url = url;
+        StateHasChanged();
+    }
+
+    private async Task OnIconChange(SelectedItem item)
+    {
+        Icons = await WtmBlazor.Api.CallItemsApi($"/api/FrameworkMenu/GetIconItems?key={item.Value}", placeholder: WtmBlazor.Localizer["Sys.PleaseSelect"]);
+        foreach (var icon in Icons)
+        {
+            if (icon.Value != "")
+            {
+                icon.Value = SelectedIconType + " " + icon.Value;
+            }
+        }
+        StateHasChanged();
+    }
+
+
+    private async Task Submit(EditContext context)
+    {
+        await PostsForm(vform, "/api/FrameworkMenu/add", (s) => "Sys.OprationSuccess");
+    }
+
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+
+}
