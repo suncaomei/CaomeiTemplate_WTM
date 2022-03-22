@@ -7,9 +7,17 @@
     page=>MenuKey.{Name}
 
 2.修复自带的代码生成器无法生成BatchEdit的问题
+
 3.修复自带的初始化数据导致(用户管理)菜单无效的问题
+
 4.增加了生成Model和翻译资源的API 可见CodeGenController
+
 5.增加了公共主页
+
 6.美化了界面 
+
 7.修改默认的提示框由BB的Toast改为Message
+
 8.增加了一些我忘记了功能
+
+示例网站:https://caomei.in/
