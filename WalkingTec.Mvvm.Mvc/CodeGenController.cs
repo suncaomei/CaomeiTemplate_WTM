@@ -94,23 +94,23 @@ namespace WalkingTec.Mvvm.Mvc
             }
             return Ok(resx.ModelName_en + "\n\n\n" + models1 + models2 + models3 + "\n\n\n\n\n" + base_en + modelField_en + "\n\n\n\n\n" + base_cn + modelField_cn);
         }
+    }
 
-        public class Resx
-        {
-            //是否虚方法
-            public bool IsAbstract { get; set; } = false;
+    public class Resx
+    {
+        //是否虚方法
+        public bool IsAbstract { get; set; } = false;
 
-            public string ProjectName_en { get; set; }
-            public string AreasName_en { get; set; }
-            public string ModelName_en { get; set; }
-            public string ModelName_cn { get; set; }
-            public List<ModelField_List> ModelField_List { get; set; }
-        }
+        public string ProjectName_en { get; set; }
+        public string AreasName_en { get; set; }
+        public string ModelName_en { get; set; }
+        public string ModelName_cn { get; set; }
+        public List<ModelField_List> ModelField_List { get; set; }
+    }
 
-        public class ModelField_List
-        {
-            public string ModelField_en { get; set; }
-            public string ModelField_cn { get; set; }
-        }
+    public class ModelField_List
+    {
+        public string ModelField_en { get; set; }
+        public string ModelField_cn { get; set; }
     }
 }
