@@ -148,7 +148,7 @@
 
     public string Title { get; set; }
 
-    private string SelectedCulture
+    public string SelectedCulture
     {
         get
         {
@@ -297,9 +297,14 @@
             var culture = new CultureInfo(cultureName);
             CultureInfo.CurrentCulture = culture;
             CultureInfo.CurrentUICulture = culture;
-            var query = $"?culture={Uri.EscapeDataString(Value)}";
-            await wtmblazor.Api.CallAPI("/_framework/SetLanguageForBlazor" + query);
-            await JSRuntime.InvokeVoidAsync("urlFuncs.refresh");
+            //var query = $"?culture={Uri.EscapeDataString(Value)}";
+            //await wtmblazor.Api.CallAPI("/_framework/SetLanguageForBlazor" + query);
+            //await JSRuntime.InvokeVoidAsync("urlFuncs.refresh");
+                    var uri =  await JSRuntime.InvokeAsync<string>("urlFuncs.getCurrentUrl");
+            var query = $"?culture={Uri.EscapeDataString(Value)}&" +
+                $"redirect={Uri.EscapeDataString(uri)}";
+            NavigationManager.NavigateTo(wtmblazor.GetServerUrl() + "/_framework/SetLanguageForBlazor" + query, forceLoad: true);
+
         }
     }
 }
