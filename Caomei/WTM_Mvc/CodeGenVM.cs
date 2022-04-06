@@ -1986,7 +1986,7 @@ namespace Caomei.Mvc
                 var pros_IsBatchField = FieldInfos.Where(x => x.IsBatchField == true).ToList();
 
                 fieldstr.Append(Environment.NewLine);
-                for (int i = 0; i < pros_IsBatchField.Count; i++)
+                for (int i = 0; i < pros_IsListField.Count; i++)
                 {
                     var str = string.Empty;
                     var item = pros_IsBatchField[i];
