@@ -6,6 +6,7 @@
     controller=>MenuKey.{Name}
     page=>MenuKey.{Name}
 
+
 2.修复自带的代码生成器无法生成BatchEdit的问题
 
 3.修复自带的初始化数据导致(用户管理)菜单无效的问题
@@ -19,5 +20,8 @@
 7.修改默认的提示框由BB的Toast改为Message
 
 8.增加了一些我忘记了功能
+
+9.重新设计了代码生成器 支持vue和blazor
+
 
 示例网站:https://caomei.in/
