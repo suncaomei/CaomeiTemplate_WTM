@@ -1725,7 +1725,7 @@ namespace Caomei.Mvc
                     }
                     else if (checktype == typeof(DateTime))
                     {
-                        valueType="date";
+                        valueType="dateTimeRange";
                     }
                     else if (checktype== typeof(FileAttachment))
                     {
@@ -1786,7 +1786,7 @@ namespace Caomei.Mvc
                     }
                     else if (checktype == typeof(DateTime))
                     {
-                        valueType="date";
+                        valueType="dateTime";
                     }
                     else if (checktype== typeof(FileAttachment))
                     {
@@ -1847,7 +1847,7 @@ namespace Caomei.Mvc
                     }
                     else if (checktype == typeof(DateTime))
                     {
-                        valueType="date";
+                        valueType="dateTime";
                     }
                     else if (checktype== typeof(FileAttachment))
                     {
