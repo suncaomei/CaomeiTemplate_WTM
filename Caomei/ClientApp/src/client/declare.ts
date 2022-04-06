@@ -1,14 +1,15 @@
-
-import { ValidationRule } from 'ant-design-vue/lib/form/Form';
-import { NamePath } from 'ant-design-vue/lib/form/interface';
+import { ValidationRule } from "ant-design-vue/lib/form/Form";
+import { NamePath } from "ant-design-vue/lib/form/interface";
 /**
  * 类型定义
  */
-export declare type ProFieldRequestData = (props?: any) => Promise<{
-    label: any;
-    value: any;
-    [key: string]: any;
-}[]>;
+export declare type ProFieldRequestData = (props?: any) => Promise<
+    {
+        label: any;
+        value: any;
+        [key: string]: any;
+    }[]
+>;
 export declare type WTM_EntitiesField = {
     /** 表单 Name  */
     name: NamePath;
@@ -30,7 +31,7 @@ export declare type WTM_EntitiesField = {
      * 传递给 Field 的 props
      */
     fieldProps?: any;
-}
+};
 // https://procomponents.ant.design/components/field-set
 export enum WTM_ValueType {
     /** 密码框 */
@@ -42,6 +43,9 @@ export enum WTM_ValueType {
     dateWeek = "dateWeek",
     dateMonth = "dateMonth",
     dateRange = "dateRange",
+    dateTime = "dateTime",
+    dateTimeRange = "dateTimeRange",
+
     /** 文本 */
     text = "text",
     /** 选择框 */
