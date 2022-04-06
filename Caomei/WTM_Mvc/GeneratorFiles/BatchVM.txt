@@ -1,0 +1,36 @@
+using Caomei.Core;
+using System.ComponentModel.DataAnnotations;
+using $modelnamespace$;
+$othernamespace$
+
+namespace $vmnamespace$
+{
+    public partial class $classname$BatchVM : BaseBatchVM<$modelname$, $classname$_BatchEdit>
+    {
+        public $classname$BatchVM()
+        {
+            ListVM = new $classname$ListVM();
+            LinkedVM = new $classname$_BatchEdit();
+        }
+
+        public override bool DoBatchEdit()
+        {
+            return base.DoBatchEdit();
+        }
+
+    }
+
+
+    /// <summary>
+    /// Class to define batch edit fields
+    /// </summary>
+    public class $classname$_BatchEdit : BaseVM
+    {$pros$
+
+        protected override void InitVM()
+        {$init$
+        }
+
+    }
+
+}

@@ -1,0 +1,27 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Caomei.Mvc
+{
+    public class FResult : ContentResult
+    {
+        public StringBuilder ContentBuilder { get; set; }
+        public BaseController Controller { get; set; }
+
+        public FResult() : this(string.Empty)
+        {
+        }
+
+        public FResult(string content)
+        {
+            ContentBuilder = new StringBuilder(content);
+        }
+
+        public override Task ExecuteResultAsync(ActionContext context)
+        {
+            Content = ContentBuilder.ToString();
+            return base.ExecuteResultAsync(context);
+        }
+    }
+}

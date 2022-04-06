@@ -1,0 +1,38 @@
+using System.Threading.Tasks;
+using Caomei.Core;
+using $modelnamespace$;
+$othernamespace$
+
+namespace $vmnamespace$
+{
+    public partial class $classname$VM : BaseCRUDVM<$modelname$>
+    {$pros$
+
+        public $classname$VM()
+        {$include$
+        }
+
+        protected override void InitVM()
+        {$init$
+        }
+        public override DuplicatedInfo<$modelname$> SetDuplicatedCheck()
+        {
+            return null;
+        }
+
+        public override async Task DoAddAsync()
+        {$add$           
+            await base.DoAddAsync();
+        }
+
+        public override async Task DoEditAsync(bool updateAllFields = false)
+        {$edit$
+            await base.DoEditAsync(updateAllFields);
+        }
+
+        public override async Task DoDeleteAsync()
+        {
+            await base.DoDeleteAsync();
+        }
+    }
+}

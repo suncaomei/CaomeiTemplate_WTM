@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Caomei.Core;
+using Caomei.Core.Implement;
+using Caomei.Core.Support.FileHandlers;
+using Caomei.Core.Support.Json;
+using Caomei.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Localization;
@@ -10,11 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Implement;
-using WalkingTec.Mvvm.Core.Support.FileHandlers;
-using WalkingTec.Mvvm.Core.Support.Json;
-using WalkingTec.Mvvm.Mvc;
 
 namespace Caomei.Test
 {

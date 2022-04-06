@@ -1,0 +1,21 @@
+﻿
+
+
+import { $i18n, WTM_EntitiesField, WTM_ValueType, FieldRequest, $locales } from '@/client';
+import router from '@/router';
+import { ColGroupDef, GridOptions } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
+import lodash from 'lodash';
+import language from '@/client/locales/languagesys';
+
+/**
+ * 页面实体
+ */
+
+class $modelname$Entity {
+    
+$fields$
+}
+
+export const Ex$modelname$Entity = new $modelname$Entity()
+

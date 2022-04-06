@@ -1,0 +1,76 @@
+﻿
+<template>
+  <filterViewIndexSearcher />
+
+  <ActionViewIndex />
+  <a-divider />
+  <GridViewIndex />
+
+
+  <WtmView queryKey="$area_toLower$$modelname_toLower$create" :title="$i18n.t($locales.Sys_Create)">
+    <Create @refreshGrid="refreshGrid$modelname$"/>
+  </WtmView>
+
+  <WtmView queryKey="$area_toLower$$modelname_toLower$edit" :title="$i18n.t($locales.Sys_Edit)">
+    <Edit @refreshGrid="refreshGrid$modelname$"/>
+  </WtmView>
+
+  <WtmView queryKey="$area_toLower$$modelname_toLower$details" :title="$i18n.t($locales.Sys_Details)">
+    <Details @refreshGrid="refreshGrid$modelname$"/>
+  </WtmView>
+
+  <WtmView queryKey="$area_toLower$$modelname_toLower$batchedit" :title="$i18n.t($locales.Sys_BatchEdit)">
+    <BatchEdit @refreshGrid="refreshGrid$modelname$"/>
+  </WtmView>
+
+  <WtmView queryKey="$area_toLower$$modelname_toLower$import" :title="$i18n.t($locales.Sys_Import)">
+    <Import @refreshGrid="refreshGrid$modelname$"/>
+  </WtmView>
+</template>
+
+
+<script lang="ts">
+import {Inject,mixins,Options,Provide,Vue } from "vue-property-decorator";
+import {$locales} from "@/client";
+import {Ex$modelname$PageController,} from "./controller";
+import filterViewIndexSearcher from "./views/widgets/filterViewIndexSearcher.vue";
+import ActionViewIndex from "./views/widgets/actionViewIndex.vue";
+import GridViewIndex from "./views/widgets/gridViewIndex.vue";
+import Create from "@/pages/_$area_toLower$/$modelname_toLower$/views/create.vue";
+import Edit from "@/pages/_$area_toLower$/$modelname_toLower$/views/edit.vue";
+import Details from "@/pages/_$area_toLower$/$modelname_toLower$/views/details.vue";
+import BatchEdit from "@/pages/_$area_toLower$/$modelname_toLower$/views/batchEdit.vue";
+import Import from "@/pages/_$area_toLower$/$modelname_toLower$/views/import.vue";
+@Options({
+    name: "Caomei.$area$.Controllers,$modelname$",  
+    components: {
+    filterViewIndexSearcher,
+    ActionViewIndex,
+    GridViewIndex,
+    Create,
+    Edit,
+    Details,
+    BatchEdit,
+    Import,
+  },
+})
+export default class extends Vue {
+
+    readonly Ex$modelname$PageController = Ex$modelname$PageController;
+
+    
+    get queryKey() {
+      return "$area_toLower$$modelname_toLower$index";
+    }
+
+    
+    refreshGrid$modelname$() {
+        this.Ex$modelname$PageController.Pagination.onCurrentChange({ current: 1 })
+    }
+    created() {}
+    mounted() {}
+}
+</script>
+<style lang="less">
+</style>
+

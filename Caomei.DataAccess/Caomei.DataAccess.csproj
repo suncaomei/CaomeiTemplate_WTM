@@ -8,6 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Caomei.Model\Caomei.Model.csproj" />
-  </ItemGroup>
+  </ItemGroup >
 </Project>
 

@@ -1,0 +1,67 @@
+﻿
+@page "/_Admin/FrameworkUser/Details"
+@using Caomei.ViewModel.Admin.FrameworkUserVMs
+@using System.ComponentModel.DataAnnotations
+@inherits BasePage
+
+<div>
+  <ValidateForm @ref="vform" Model="@Model" OnValidSubmit="@Submit" >
+    <Row ItemsPerRow="ItemsPerRow.Two" RowType="RowType.Normal">
+      <Display @bind-Value="@Model.Entity.Email"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.Gender"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.CellPhone"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.HomePhone"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.Address"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.ZipCode"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.ITCode"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.Name"  ShowLabel="true"/>
+      <Display @bind-Value="@Model.Entity.IsValid"  ShowLabel="true"/>
+      <WTUploadImage @bind-Value="@Model.Entity.PhotoId" IsDisabled="true" style="width:300px;" thumb-width="128"/>
+
+
+
+
+    </Row>
+
+    <div class="modal-footer table-modal-footer">
+      <Button OnClick="OnClose" Text="@WtmBlazor.Localizer["Sys.Close"]"/>
+    </div>
+
+  </ValidateForm>
+
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    [Parameter]
+    public string[] ids { get; set; }
+    private FrameworkUserVM Model = new FrameworkUserVM();
+    private ValidateForm vform { get; set; }
+    private async Task Submit(EditContext context)
+    {
+                        
+        
+        await PostsForm(vform, "/api/_Admin/FrameworkUser/Edit", (s) => "Sys.OprationSuccess");
+    }
+
+    public void OnClose()
+    {
+        CloseDialog();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        
+        
+        if (id != "")
+        {
+            var rv = await WtmBlazor.Api.CallAPI<FrameworkUserVM>($"/api/_Admin/FrameworkUser/{id}");
+            Model = rv.Data;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}

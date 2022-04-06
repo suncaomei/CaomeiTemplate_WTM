@@ -1,4 +1,6 @@
 using BootstrapBlazor.Components;
+using Caomei.Core;
+using Caomei.Core.Extensions;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -6,8 +8,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
 
 namespace WtmBlazorUtils
 {
@@ -126,12 +126,12 @@ namespace WtmBlazorUtils
         /// <summary>
         /// 使用Get方法调用api
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<T>> CallAPI<T>(string url, int? timeout = null, string proxy = null) where T : class
         {
             HttpContent content = null;
@@ -140,16 +140,15 @@ namespace WtmBlazorUtils
         }
 
         /// <summary>
-        ///
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="method">调用方式</param>
-        /// <param name="postdata">提交字段</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="method">     调用方式 </param>
+        /// <param name="postdata">   提交字段 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<T>> CallAPI<T>(string url, HttpMethodEnum method, IDictionary<string, string> postdata, int? timeout = null, string proxy = null) where T : class
         {
             HttpContent content = null;
@@ -191,16 +190,15 @@ namespace WtmBlazorUtils
         }
 
         /// <summary>
-        ///
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="method">调用方式</param>
-        /// <param name="postdata">提交的object，会被转成json提交</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="method">     调用方式 </param>
+        /// <param name="postdata">   提交的object，会被转成json提交 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<T>> CallAPI<T>(string url, HttpMethodEnum method, object postdata, int? timeout = null, string proxy = null) where T : class
         {
             HttpContent content = new StringContent(JsonSerializer.Serialize(postdata, CoreProgram.DefaultPostJsonOption), System.Text.Encoding.UTF8, "application/json");
@@ -215,41 +213,39 @@ namespace WtmBlazorUtils
         /// <summary>
         /// 使用Get方法调用api
         /// </summary>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<string>> CallAPI(string url, int? timeout = null, string proxy = null)
         {
             return await CallAPI<string>(url, timeout, proxy);
         }
 
         /// <summary>
-        ///
         /// </summary>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="method">调用方式</param>
-        /// <param name="postdata">提交字段</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="method">     调用方式 </param>
+        /// <param name="postdata">   提交字段 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<string>> CallAPI(string url, HttpMethodEnum method, IDictionary<string, string> postdata, int? timeout = null, string proxy = null)
         {
             return await CallAPI<string>(url, method, postdata, timeout, proxy);
         }
 
         /// <summary>
-        ///
         /// </summary>
-        /// <param name="domainName">Appsettings中配置的Domain key</param>
-        /// <param name="url">调用地址</param>
-        /// <param name="method">调用方式</param>
-        /// <param name="postdata">提交的object，会被转成json提交</param>
-        /// <param name="timeout">超时时间，单位秒</param>
-        /// <param name="proxy">代理地址</param>
-        /// <returns></returns>
+        /// <param name="domainName"> Appsettings中配置的Domain key </param>
+        /// <param name="url">        调用地址 </param>
+        /// <param name="method">     调用方式 </param>
+        /// <param name="postdata">   提交的object，会被转成json提交 </param>
+        /// <param name="timeout">    超时时间，单位秒 </param>
+        /// <param name="proxy">      代理地址 </param>
+        /// <returns> </returns>
         public async Task<ApiResult<string>> CallAPI(string url, HttpMethodEnum method, object postdata, int? timeout = null, string proxy = null)
         {
             return await CallAPI<string>(url, method, postdata, timeout, proxy);

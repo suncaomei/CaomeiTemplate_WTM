@@ -1,0 +1,41 @@
+﻿
+<template>
+  <div>
+    <FormViewCreateAdd @refreshGrid="refreshGrid$modelname$" />
+
+  </div>
+
+</template>
+
+
+<script lang="ts">
+import {Inject,mixins,Options,Provide,Vue } from "vue-property-decorator";
+import {$locales} from "@/client";
+import { Ex$modelname$PageController,} from "../controller";
+import FormViewCreateAdd from "./widgets/formViewCreateAdd.vue";
+@Options({
+    name: "Sys_Create",  
+    components: {
+    FormViewCreateAdd,
+  },
+})
+export default class extends Vue {
+
+    readonly Ex$modelname$PageController = Ex$modelname$PageController;
+
+    
+    get queryKey() {
+      return "$area_toLower$$modelname_toLower$create";
+    }
+
+    
+    refreshGrid$modelname$() {
+        this.$emit('refreshGrid');
+    }
+    created() {}
+    mounted() {}
+}
+</script>
+<style lang="less">
+</style>
+

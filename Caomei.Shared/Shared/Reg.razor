@@ -23,7 +23,7 @@
                     <BootstrapInput @bind-Value="@Model.Password" type="password" />
                     <BootstrapInput @bind-Value="@Model.NewPasswordComfirm" type="password" />
                     @*                    <Captcha ImagesPath="@ImagesPath" @ref="Captcha" OnValid="@OnValid" Width="200" />
-                    *@                    <Button ButtonType="ButtonType.Submit" Text="@WtmBlazor.Localizer["Login.Reg"]" style="width:100%;margin-top:20px;" IsAsync="true" />
+                    *@                    <Button ButtonType="ButtonType.Submit" Text="@WtmBlazor.Localizer["Sys.Register"]" style="width:100%;margin-top:20px;" IsAsync="true" />
                     <Button Text="@WtmBlazor.Localizer["Sys.Login"]" style="width:100%;margin-top:20px;" IsAsync="true" OnClick="Login" />
                 </ValidateForm>
             </div>
@@ -97,12 +97,12 @@
             return;
 
         }
-        var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/Account/reg", HttpMethodEnum.POST, new { ITCode = Model.ITCode, Password = Model.Password, NewPasswordComfirm = Model.NewPasswordComfirm, Name = Model.Name });
+        var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/_Account/reg", HttpMethodEnum.POST, new { ITCode = Model.ITCode, Password = Model.Password, NewPasswordComfirm = Model.NewPasswordComfirm, Name = Model.Name });
 
 
         if (rv.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            await WtmBlazor.Message(color: Color.Success, contetn: WtmBlazor.Localizer["Reg.Success"]);
+            await WtmBlazor.Message(color: Color.Success, contetn: WtmBlazor.Localizer["Sys.RegSuccess"]);
 
             await Task.Delay(1000);
 

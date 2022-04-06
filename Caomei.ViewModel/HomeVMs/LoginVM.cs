@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Caomei.Core;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using WalkingTec.Mvvm.Core;
 
 namespace Caomei.ViewModel.HomeVMs
 {
     public class LoginVM : BaseVM
     {
-        [Display(Name = "Sys.Account")]
+        [Display(Name = "FrameworkUser.ITCode")]
         [Required(AllowEmptyStrings = false)]
         [StringLength(50, ErrorMessage = "Validate.{0}stringmax{1}")]
         public string ITCode { get; set; }
@@ -51,8 +51,8 @@ namespace Caomei.ViewModel.HomeVMs
         /// <summary>
         /// 进行登录
         /// </summary>
-        /// <param name="ignorePris">外部传递的页面权限</param>
-        /// <returns>登录用户的信息</returns>
+        /// <param name="ignorePris"> 外部传递的页面权限 </param>
+        /// <returns> 登录用户的信息 </returns>
         public async Task<LoginUserInfo> DoLoginAsync(bool ignorePris = false)
         {
             //根据用户名和密码查询用户

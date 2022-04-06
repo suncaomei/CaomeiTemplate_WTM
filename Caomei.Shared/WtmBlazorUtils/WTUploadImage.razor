@@ -10,10 +10,10 @@
     @if (dlist != null)
     {
         <AvatarUpload @ref="uploader" Value="Value" ValueExpression="ValueExpression" ValueChanged="ValueChanged" Accept="image/*" IsSingle="!IsMultiple" ShowProgress="true" OnChange="@OnAvatarUpload"
-                  OnDelete="@OnAvatarDelete" DisplayText="@LabelText" DefaultFileList="@dlist" IsDisabled="@IsDisabled"></AvatarUpload>
+                      OnDelete="@OnAvatarDelete" DisplayText="@LabelText" DefaultFileList="@dlist" IsDisabled="@IsDisabled"></AvatarUpload>
     }
 </div>
-@code {
+@code{
 
     [Parameter]
     public int? ThumbWidth { get; set; } = 200;
@@ -74,17 +74,17 @@
             List<UploadFile> temp = new List<UploadFile>();
             if (IsMultiple == false)
             {
-                var rv = await WtmBlazor.Api.CallAPI<byte[]>($"/api/File/GetFile/{Value}", HttpMethodEnum.GET, new Dictionary<string, string> {
+                var rv = await WtmBlazor.Api.CallAPI<byte[]>($"/api/_file/GetFile/{Value}", HttpMethodEnum.GET, new Dictionary<string, string> {
                     {"width", ThumbWidth?.ToString() },
                     {"height", ThumbHeight?.ToString() }
                 });
                 if (rv.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     temp.Add(new UploadFile
-                        {
-                            PrevUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(rv.Data)}",
-                            FileName = Value.ToString()
-                        }); ;
+                    {
+                        PrevUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(rv.Data)}",
+                        FileName = Value.ToString()
+                    }); ;
                     files.Add(Value.ToString(), Value.ToString());
                 }
                 else
@@ -99,17 +99,17 @@
                 var list = Value as IEnumerable<ISubFile>;
                 foreach (var item in list)
                 {
-                    var rv = await WtmBlazor.Api.CallAPI<byte[]>($"/api/File/GetFile/{item.FileId}", HttpMethodEnum.GET, new Dictionary<string, string> {
+                    var rv = await WtmBlazor.Api.CallAPI<byte[]>($"/api/_file/GetFile/{item.FileId}", HttpMethodEnum.GET, new Dictionary<string, string> {
                     {"width", ThumbWidth?.ToString() },
                     {"height", ThumbHeight?.ToString() }
                 });
                     if (rv.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         temp.Add(new UploadFile
-                            {
-                                PrevUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(rv.Data)}",
-                                FileName = item.FileId.ToString()
-                            });
+                        {
+                            PrevUrl = $"data:image/jpeg;base64,{Convert.ToBase64String(rv.Data)}",
+                            FileName = item.FileId.ToString()
+                        });
                         files.Add(item.FileId.ToString(), item.FileId.ToString());
                     }
                 }
@@ -135,7 +135,7 @@
             {
 
                 byte[] filedata = await GetFileData(file.File);
-                var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/File/UploadImage", HttpMethodEnum.POST, new Dictionary<string, string> {
+                var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/_file/UploadImage", HttpMethodEnum.POST, new Dictionary<string, string> {
                     {"width", ThumbWidth?.ToString() },
                     {"height", ThumbHeight?.ToString() }
                 }, filedata, file.File.Name);
@@ -160,7 +160,7 @@
         }
         if (suc == false)
         {
-            await WtmBlazor.Message(color: Color.Success, contetn: WtmBlazor.Localizer["Sys.UploadFailed"]);
+            await WtmBlazor.Toast.Error(content: WtmBlazor.Localizer["Sys.UploadFailed"]);
         }
 
     }
@@ -171,7 +171,7 @@
         var idstr = files.Where(x => x.Value == file.OriginFileName || x.Key == file.FileName).Select(x => x.Key).FirstOrDefault();
         if (idstr != null)
         {
-            var rv = await WtmBlazor.Api.CallAPI($"/api/File/DeletedFile/{idstr}");
+            var rv = await WtmBlazor.Api.CallAPI($"/api/_file/DeletedFile/{idstr}");
             files.Remove(idstr);
             SetDeletedIds(idstr);
             if (IsMultiple == true)
@@ -206,11 +206,11 @@
     private void SetDeletedIds(string id)
     {
         var refpage = PropertyHelper.GetExpressionRootObj(ValueExpression) as BasePage;
-        if (refpage != null)
+        if(refpage != null)
         {
-            if (string.IsNullOrEmpty(id) == false)
+            if(string.IsNullOrEmpty(id) == false)
             {
-                if (refpage.DeletedFileIds == null)
+                if(refpage.DeletedFileIds == null)
                 {
                     refpage.DeletedFileIds = new List<string>();
                 }

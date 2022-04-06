@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+﻿using Caomei.Core;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using System.Globalization;
 using System.Threading.Tasks;
-using WalkingTec.Mvvm.Core;
 using WtmBlazorUtils;
 
 namespace Caomei.Client

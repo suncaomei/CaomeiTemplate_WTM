@@ -1,7 +1,7 @@
 using BootstrapBlazor.Components;
+using Caomei.Core;
 using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
-using WalkingTec.Mvvm.Core;
 
 namespace WtmBlazorUtils
 {
@@ -47,14 +47,14 @@ namespace WtmBlazorUtils
                 if (_boolItems == null)
                 {
                     _boolItems = new List<SelectedItem> {
-                     new SelectedItem{ Text = _local["Sys.PleaseSelect"], Value = ""},
+                     new SelectedItem{ Text = _local["Validate.PleaseSelect"], Value = ""},
                    new SelectedItem{ Text = _local["Sys.Yes"], Value = "True"},
                     new SelectedItem{ Text = _local["Sys.No"], Value = "False"},
                 };
                 }
                 else
                 {
-                    _boolItems[0].Text = _local["Sys.PleaseSelect"];
+                    _boolItems[0].Text = _local["Validate.PleaseSelect"];
                     _boolItems[1].Text = _local["Sys.Yes"];
                     _boolItems[2].Text = _local["Sys.No"];
                 }

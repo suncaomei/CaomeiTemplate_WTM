@@ -5,9 +5,9 @@
 @using System.Linq.Expressions;
 @using System.IO;
 @typeparam TValue
-<ButtonUpload @ref="uploader" Value="Value" ValueExpression="ValueExpression" ValueChanged="ValueChanged" Accept="*/*" IsSingle="true" ShowProgress="true" OnChange="@OnAvatarUpload" OnDelete="@OnAvatarDelete" DisplayText="@LabelText" DefaultFileList="@dlist"></ButtonUpload>
+<ButtonUpload @ref="uploader" Value="Value" ValueExpression="ValueExpression" ValueChanged="ValueChanged" Accept="*/*" IsSingle="true" ShowProgress="true" OnChange="@OnAvatarUpload" OnDelete="@OnAvatarDelete" DisplayText="@LabelText"  DefaultFileList="@dlist"></ButtonUpload>
 
-@code {
+@code{
 
     [Parameter]
     public int? ThumbWidth { get; set; }
@@ -47,13 +47,13 @@
         if (file != null && file.File != null)
         {
             byte[] filedata = await GetFileData(file.File);
-            var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/File/Upload", HttpMethodEnum.POST, null, filedata, file.File.Name);
+            var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/_file/Upload", HttpMethodEnum.POST, null, filedata, file.File.Name);
             if (rv.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var idstr = files.Select(x => x.Key);
                 foreach (var id in idstr)
                 {
-                    _ = await WtmBlazor.Api.CallAPI($"/api/File/DeletedFile/{idstr}");
+                    _ = await WtmBlazor.Api.CallAPI($"/api/_file/DeletedFile/{idstr}");
                     files.Remove(id);
 
                 }
@@ -64,7 +64,7 @@
         }
         if (suc == false)
         {
-            await WtmBlazor.Message(color: Color.Success, contetn: WtmBlazor.Localizer["Sys.UploadFailed"]);
+            await WtmBlazor.Toast.Error(content: WtmBlazor.Localizer["Sys.UploadFailed"]);
         }
 
     }
@@ -74,7 +74,7 @@
         var idstr = files.Where(x => x.Value == file.OriginFileName).Select(x => x.Key).FirstOrDefault();
         if (idstr != null)
         {
-            var rv = await WtmBlazor.Api.CallAPI($"/api/File/DeletedFile/{idstr}");
+            var rv = await WtmBlazor.Api.CallAPI($"/api/_file/DeletedFile/{idstr}");
             files.Remove(idstr);
         }
         return true;

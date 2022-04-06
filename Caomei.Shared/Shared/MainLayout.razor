@@ -52,7 +52,7 @@
                                     @if (wtmblazor.ConfigInfo.IsQuickDebug == true)
                                     {
                                         <a target="_blank" href="/swagger" class="dropdown-item"><i class="fa fa-file-text fa-fw"></i><span class="nav-link-text">@wtmblazor.Localizer["Sys.ApiDoc"]</span></a>
-                                        <a target="_blank" href="/_codegen?ui=blazor" class="dropdown-item"><i class="fa fa-file-text fa-fw"></i><span class="nav-link-text">@wtmblazor.Localizer["Sys.CodeGen"]</span></a>
+                                        <a target="_blank" href="/_codegen/?ui=blazor" class="dropdown-item"><i class="fa fa-file-text fa-fw"></i><span class="nav-link-text">@wtmblazor.Localizer["Sys.CodeGen"]</span></a>
                                     }
                                     <a @onclick="async ()=>await DeleteToken() " class="dropdown-item"><i class="fa fa-sign-out fa-fw"></i><span class="nav-link-text">@wtmblazor.Localizer["Sys.LogOut"]</span></a>
                                 </div>
@@ -220,7 +220,7 @@
         }
         else
         {
-            var usermenu = UserInfo.Attributes["Menus"] as WalkingTec.Mvvm.Core.Support.Json.SimpleMenuApi[];
+            var usermenu = UserInfo.Attributes["Menus"] as Caomei.Core.Support.Json.SimpleMenuApi[];
 
             var formatedmenu = new List<FrameworkMenu>();
             foreach (var item in usermenu)

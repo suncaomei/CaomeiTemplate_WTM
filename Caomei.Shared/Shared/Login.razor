@@ -55,13 +55,13 @@
 
     private async Task Submit(EditContext context)
     {
-        var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/Account/loginjwt", HttpMethodEnum.POST, new { Account = Model.ITCode, Password = Model.Password });
+        var rv = await WtmBlazor.Api.CallAPI<DynamicData>("/api/_Account/loginjwt", HttpMethodEnum.POST, new { Account = Model.ITCode, Password = Model.Password });
         if (rv.StatusCode == System.Net.HttpStatusCode.OK)
         {
             var token = rv.Data.Fields["access_token"].ToString();
             var rtoken = rv.Data.Fields["refresh_token"].ToString();
             await SetToken(token, rtoken);
-            var userinfo = await WtmBlazor.Api.CallAPI<LoginUserInfo>("/api/Account/CheckUserInfo", HttpMethodEnum.GET, new { });
+            var userinfo = await WtmBlazor.Api.CallAPI<LoginUserInfo>("/api/_Account/CheckUserInfo", HttpMethodEnum.GET, new { });
 
             if (userinfo.StatusCode == System.Net.HttpStatusCode.OK)
             {

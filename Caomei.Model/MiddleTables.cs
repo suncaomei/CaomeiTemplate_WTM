@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Caomei.Core;
+using Caomei.Core.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
-using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Attributes;
 
 namespace Caomei.Model
 {

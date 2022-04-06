@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Caomei.Core;
+using Caomei.Core.Extensions;
+using Caomei.Core.Support.FileHandlers;
+using Caomei.Mvc;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -8,10 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
-using WalkingTec.Mvvm.Core.Support.FileHandlers;
-using WalkingTec.Mvvm.Mvc;
 using WtmBlazorUtils;
 
 namespace Caomei
@@ -91,6 +91,8 @@ namespace Caomei
             }
 
             app.UseStaticFiles();
+            app.UseFileServer();
+
             app.UseWtmStaticFiles();
             app.UseRouting();
             app.UseWtmMultiLanguages();
@@ -135,11 +137,10 @@ namespace Caomei
         }
 
         /// <summary>
-        /// Wtm will call this function to dynamiclly set connection string
-        /// 框架会调用这个函数来动态设定每次访问需要链接的数据库
+        /// Wtm will call this function to dynamiclly set connection string 框架会调用这个函数来动态设定每次访问需要链接的数据库
         /// </summary>
-        /// <param name="context">ActionContext</param>
-        /// <returns>Connection string key name</returns>
+        /// <param name="context"> ActionContext </param>
+        /// <returns> Connection string key name </returns>
         public string CSSelector(ActionExecutingContext context)
         {
             //To override the default logic of choosing connection string,
@@ -149,10 +150,9 @@ namespace Caomei
         }
 
         /// <summary>
-        /// Set data privileges that system supports
-        /// 设置系统支持的数据权限
+        /// Set data privileges that system supports 设置系统支持的数据权限
         /// </summary>
-        /// <returns>data privileges list</returns>
+        /// <returns> data privileges list </returns>
         public List<IDataPrivilege> DataPrivilegeSettings()
         {
             List<IDataPrivilege> pris = new List<IDataPrivilege>();
@@ -163,23 +163,21 @@ namespace Caomei
         }
 
         /// <summary>
-        /// Set sub directory of uploaded files
-        /// 动态设置上传文件的子目录
+        /// Set sub directory of uploaded files 动态设置上传文件的子目录
         /// </summary>
-        /// <param name="fh">IWtmFileHandler</param>
-        /// <returns>subdir name</returns>
+        /// <param name="fh"> IWtmFileHandler </param>
+        /// <returns> subdir name </returns>
         public string SubDirSelector(IWtmFileHandler fh)
         {
             return null;
         }
 
         /// <summary>
-        /// Custom Reload user process when cache is not available
-        /// 设置自定义的方法重新读取用户信息，这个方法会在用户缓存失效的时候调用
+        /// Custom Reload user process when cache is not available 设置自定义的方法重新读取用户信息，这个方法会在用户缓存失效的时候调用
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="context"> </param>
+        /// <param name="account"> </param>
+        /// <returns> </returns>
         public LoginUserInfo ReloadUser(WTMContext context, string account)
         {
             return null;

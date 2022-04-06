@@ -9,15 +9,62 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.0" />
    <ProjectReference Include="..\Caomei.Client\Caomei.Client.csproj" />
    <ProjectReference Include="..\Caomei.Shared\Caomei.Shared.csproj" />
     <ProjectReference Include="..\Caomei.DataAccess\Caomei.DataAccess.csproj" />
-    <ProjectReference Include="..\WalkingTec.Mvvm.Mvc\WalkingTec.Mvvm.Mvc.csproj" />
 </ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="WTM_Mvc\GeneratorFiles\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="WTM_Mvc\GeneratorFiles\Spa\Vue\index.txt" />
+	  <None Remove="WTM_Mvc\GeneratorFiles\Spa\Vue\locales.txt" />
+	</ItemGroup>
+
+  <ItemGroup>
+	  <Content Update="wwwroot\_codegen\**\*" CopyToPublishDirectory="Never" />
+	  <!--<Content Update="appsettings.json" CopyToPublishDirectory="Never" />-->
+	  <Content Update="wwwroot\images\**\*" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+
+
+
+	<ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta13" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="VueCliMiddleware" Version="6.0.0" />
+  </ItemGroup>
+
+
+
+
+	<ItemGroup>
+	  <None Include="wwwroot\_codegen\fonts\FiraCode-Medium.d54fbd90.woff2" />
+	  <None Include="wwwroot\_codegen\js\app.9d11d802.js" />
+	  <None Include="wwwroot\_codegen\js\app.9d11d802.js.map" />
+	  <None Include="wwwroot\_codegen\js\chunk-0c4f7c2b.4bc23251.js" />
+	  <None Include="wwwroot\_codegen\js\chunk-0c4f7c2b.4bc23251.js.map" />
+	  <None Include="wwwroot\_codegen\js\chunk-2d0b5d2e.e1f81288.js" />
+	  <None Include="wwwroot\_codegen\js\chunk-2d0b5d2e.e1f81288.js.map" />
+	  <None Include="wwwroot\_codegen\js\chunk-4c429a68.f378a6c2.js" />
+	  <None Include="wwwroot\_codegen\js\chunk-4c429a68.f378a6c2.js.map" />
+	  <None Include="wwwroot\_codegen\js\chunk-vendors.12b85100.js" />
+	  <None Include="wwwroot\_codegen\js\chunk-vendors.12b85100.js.map" />
+	</ItemGroup>
+
+
+
+
+	<ItemGroup>
+	  <Folder Include="ClientApp\" />
+	</ItemGroup>
 </Project>
 

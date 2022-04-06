@@ -1,0 +1,43 @@
+﻿
+
+<template>
+  <WtmFilter :PageController="PageController" @finish="onFinish" @reset="onReset">
+$fields$        
+    <template #more> </template>
+  </WtmFilter>
+</template>
+
+
+
+<script lang="ts">
+import { Vue, Options, Provide, Inject } from "vue-property-decorator";
+import { $modelname$PageController,Ex$modelname$PageController,Ex$modelname$Entity } from "../../controller";
+import language from '@/client/locales/languagesys';
+@Options({ components: {} })
+export default class extends Vue {
+  @Provide({ reactive: true }) readonly PageController = Ex$modelname$PageController;
+  @Provide({ reactive: true }) readonly PageEntity = Ex$modelname$Entity;
+  @Provide({ reactive: true }) readonly formState = { 
+$fields1$        
+  };
+  //readonly EnumLocaleLabel = EnumLocaleLabel;
+
+    get queryKey() {
+        return '$area_toLower$$modelname_toLower$index';
+    }
+  get Pagination() {
+    return this.PageController.Pagination;
+  }
+  async onFinish(values) {
+    await this.Pagination.onLoading(values);
+  }
+  async onReset(values) {
+    await this.Pagination.onLoading(values);
+  }
+  mounted() { }
+  created(){
+    
+}
+}
+</script>
+

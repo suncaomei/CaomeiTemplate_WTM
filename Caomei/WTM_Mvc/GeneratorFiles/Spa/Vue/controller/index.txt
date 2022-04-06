@@ -1,0 +1,35 @@
+﻿
+
+import * as WTM from "@/client";
+export * from './entity';
+
+export class $modelname$PageController extends WTM.ControllerBasics {
+    constructor() {
+        super()
+        this.onReset({
+            // 唯一标识
+            key: "ID",
+            // 搜索
+            search: '/api/_$area_toLower$/$modelname$/Search',
+            // 详情
+            details: '/api/_$area_toLower$/$modelname$/{ID}',
+            // 添加
+            insert: '/api/_$area_toLower$/$modelname$/Create',
+            // 修改
+            update: '/api/_$area_toLower$/$modelname$/Edit',
+            batchUpdate: { method: 'post', url: '/api/_$area_toLower$/$modelname$/BatchEdit' },
+            // 删除 单&多
+            delete: '/api/_$area_toLower$/$modelname$/BatchDelete',
+            // 导入
+            import: '/api/_$area_toLower$/$modelname$/Import',
+            // 导出
+            export: '/api/_$area_toLower$/$modelname$/ExportExcel',
+            // 筛选导出
+            exportIds: '/api/_$area_toLower$/$modelname$/ExportExcelByIds',
+            // 数据模板
+            template: '/api/_$area_toLower$/$modelname$/GetExcelTemplate'
+        })
+    }
+}
+
+export const Ex$modelname$PageController = new $modelname$PageController()

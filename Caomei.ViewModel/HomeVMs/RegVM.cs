@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using WalkingTec.Mvvm.Core;
+using Caomei.Core;
 
 namespace Caomei.ViewModel.HomeVMs
 {
     public class RegVM : BaseVM
     {
-        [Display(Name = "Sys.Account")]
+        [Display(Name = "FrameworkUser.ITCode")]
         [Required(ErrorMessage = "Validate.{0}required")]
         [StringLength(50, ErrorMessage = "Validate.{0}stringmax{1}")]
         public string ITCode { get; set; }
 
-        [Display(Name = "Sys.Name")]
+        [Display(Name = "FrameworkUser.Name")]
         [Required(ErrorMessage = "Validate.{0}required")]
         [StringLength(50, ErrorMessage = "Validate.{0}stringmax{1}")]
         public string Name { get; set; }
@@ -29,7 +29,7 @@ namespace Caomei.ViewModel.HomeVMs
         /// <summary>
         /// 进行登录
         /// </summary>
-        /// <returns>登录用户的信息</returns>
+        /// <returns> 登录用户的信息 </returns>
         public bool DoReg()
         {
             //检查两次新密码是否输入一致，如不一致则输出错误

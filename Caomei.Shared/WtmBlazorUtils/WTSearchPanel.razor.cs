@@ -12,7 +12,7 @@ namespace WtmBlazorUtils
             .Build();
 
         /// <summary>
-        ///  设置Body Class组件样式
+        /// 设置Body Class组件样式
         /// </summary>
         protected virtual string BodyClassName => CssBuilder.Default("card-body")
             .AddClass($"text-{Color.ToDescriptionString()}", Color != Color.None)

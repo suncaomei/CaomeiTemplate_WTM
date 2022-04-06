@@ -1,0 +1,235 @@
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #34495d;
+    transition: opacity .5s linear;
+    z-index: 2050;
+    display: flex;
+    flex-flow: column;
+}
+
+    .loader .intro {
+        width: 250px;
+        color: #fff;
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 3rem auto;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgb(146, 148, 248);
+        animation: intro 3s linear infinite
+    }
+
+@keyframes intro {
+    0%, 100% {
+        box-shadow: 0px 0px 25px 10px rgba(146, 148, 248, 0.4);
+    }
+
+    40%, 60% {
+        box-shadow: 0px 0px 25px 0px rgba(146, 148, 248, 0.4);
+    }
+}
+
+.loader .intro:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient( 120deg, transparent, rgba(146, 148, 248, 0.4), transparent );
+    animation: flash 2.5s linear infinite;
+}
+
+@keyframes flash {
+    0%, 100% {
+    }
+
+    10%, 90% {
+        left: 100%;
+    }
+}
+
+.loader .intro img {
+    border-radius: 3px;
+    width: 40px;
+    margin-right: 1rem;
+}
+
+.loader .intro span {
+    color: #fff;
+    animation: title 3s linear infinite;
+}
+
+@keyframes title {
+    0%, 100% {
+        color: #fff;
+    }
+
+    60% {
+        color: #666;
+    }
+}
+
+.loader .bar {
+    width: 50%;
+    height: 4px;
+    border-radius: 2px;
+    margin: auto;
+    background: #E645D0;
+}
+
+    .loader .bar .progress {
+        width: 0%;
+        height: 4px;
+        margin: auto;
+        background: #17E1E6;
+    }
+
+.loader .progress {
+    animation: progress 12s linear;
+    -moz-animation: progress 12s linear;
+    /* Firefox */
+    -webkit-animation: progress 12s linear;
+    /* Safari and Chrome */
+    -o-animation: progress 12s linear;
+    /* Opera */
+    animation: progress 12s linear infinite;
+}
+
+@keyframes progress {
+    0%, 100% {
+        width: 0%;
+        background-color: #17e1e6;
+    }
+
+    50% {
+        width: 100%;
+        background-color: #28a745;
+    }
+}
+
+@media (min-width: 768px) {
+    .loader {
+        padding-top: 8rem;
+    }
+
+        .loader .intro {
+            margin-top: 6rem;
+        }
+}
+
+.youling {
+    width: 160px;
+    margin: 100px auto;
+    position: relative;
+    animation: youlingUpdown 0.5s infinite alternate;
+    -webkit-animation: youlingUpdown 0.5s infinite alternate;
+}
+
+.youlingBody {
+    width: 140px;
+    height: 180px;
+    background: #fff;
+    border-radius: 100% 100% 0 0;
+    position: relative;
+}
+
+.youlingEye {
+    width: 15px;
+    height: 20px;
+    border-radius: 100%;
+    border: 2px solid #061E74;
+    background: #061E74;
+    box-youlingshadow: inset -2px -2px #fff;
+    position: absolute;
+    top: 60px;
+}
+
+.left {
+    left: 45px
+}
+
+.right {
+    right: 50px;
+}
+
+.youlingMouth {
+    width: 15px;
+    height: 20px;
+    border-radius: 100%;
+    border: 2px solid #061E74;
+    position: absolute;
+    top: 90px;
+    left: 70px;
+}
+
+.youlingWave {
+    position: absolute;
+    width: 140px;
+    height: 20px;
+    background-size: 25px 20px;
+    background-image: radial-gradient(circle at 50% 0%, #fff, 71%, transparent 71%);
+}
+
+.youlingshadow {
+    width: 140px;
+    height: 10px;
+    border-radius: 100%;
+    background: #061E74;
+    opacity: 0.3;
+    margin-top: 70px;
+    animation: youlingshadow 0.5s infinite alternate;
+    -webkit-animation: youlingshadow 0.5s infinite alternate;
+}
+
+@keyframes youlingUpdown {
+    from {
+        margin-top: 100px;
+    }
+
+    to {
+        margin-top: 70px;
+    }
+}
+
+@-webkit-keyframes youlingUpdown {
+    from {
+        margin-top: 100px;
+    }
+
+    to {
+        margin-top: 70px;
+    }
+}
+
+@keyframes youlingshadow {
+    from {
+        margin-top: 70px;
+        opacity: 0.3;
+    }
+
+    to {
+        margin-top: 100px;
+        opacity: 0.1;
+    }
+}
+
+@-webkit-keyframes youlingshadow {
+    from {
+        margin-top: 70px;
+        opacity: 0.3;
+    }
+
+    to {
+        margin-top: 100px;
+        opacity: 0.1;
+    }
+}

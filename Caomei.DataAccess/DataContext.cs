@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Caomei.Core;
+using Caomei.Core.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WalkingTec.Mvvm.Core;
-using WalkingTec.Mvvm.Core.Extensions;
 
 namespace Caomei.DataAccess
 {
@@ -45,7 +45,7 @@ namespace Caomei.DataAccess
                 //当state是true的时候，表示这是第一次创建数据库，可以在这里进行数据初始化
                 var user = new FrameworkUser
                 {
-                    ITCode = "Admin",
+                    ITCode = "admin",
                     Password = Utils.GetMD5String("000000"),
                     IsValid = true,
                     Name = "Admin",
@@ -59,7 +59,7 @@ namespace Caomei.DataAccess
                 var adminmenus = Set<FrameworkMenu>().Where(x => x.Url != null && x.Url.StartsWith("/api") == false).ToList();
                 foreach (var item in adminmenus)
                 {
-                    item.Url = "/Admin" + item.Url;
+                    item.Url = "/_admin" + item.Url;
                 }
                 await SaveChangesAsync();
                 Set<FrameworkUser>().Add(user);
@@ -177,14 +177,14 @@ namespace Caomei.DataAccess
     }
 
     /// <summary>
-    /// DesignTimeFactory for EF Migration, use your full connection string,
-    /// EF will find this class and use the connection defined here to run Add-Migration and Update-Database
+    /// DesignTimeFactory for EF Migration, use your full connection string, EF will find this class
+    /// and use the connection defined here to run Add-Migration and Update-Database
     /// </summary>
     public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
     {
         public DataContext CreateDbContext(string[] args)
         {
-            return new DataContext("", DBTypeEnum.SqlServer);
+            return new DataContext("your full connection string", DBTypeEnum.SqlServer);
         }
     }
 }

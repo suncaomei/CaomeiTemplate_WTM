@@ -2,9 +2,7 @@
 @inherits BasePage
 @inject NavigationManager NavigationManager
 
-<BootstrapBlazorRoot>
-
-
+@*<BootstrapBlazorRoot>
 
     <Router AppAssembly="@typeof(Program).Assembly" OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
@@ -32,6 +30,41 @@
             </LayoutView>
         </NotFound>
     </Router>
+</BootstrapBlazorRoot>
+*@
+
+
+<BootstrapBlazorRoot>
+    @if (hasToken == true || IsPublic == true)
+    {
+        <Router AppAssembly="@typeof(Program).Assembly" OnNavigateAsync="OnNavigateAsync">
+            <Found Context="routeData">
+                <CascadingValue Value="User" IsFixed="false">
+                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                </CascadingValue>
+            </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(EmptyLayout)">
+                <NoFond />
+            </LayoutView>
+        </NotFound>
+        </Router>
+    }
+    else if (hasToken == false)
+    {
+        <Router AppAssembly="@typeof(Program).Assembly">
+            <Found Context="routeData">
+                <CascadingValue Value="User" IsFixed="false">
+                    <Login @bind-LoginSuccess="hasToken" OnUserInfoSet="async ()=> {User = await GetUserInfo(); }" />
+                </CascadingValue>
+            </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(EmptyLayout)">
+                <NoFond />
+            </LayoutView>
+        </NotFound>
+        </Router>
+    }
 </BootstrapBlazorRoot>
 
 @code {
@@ -61,13 +94,13 @@
             else
             {
                 var refreshtoken = await GetRefreshToken();
-                var rv = await WtmBlazor.Api.CallAPI<DynamicData>($"/api/Account/RefreshToken?refreshToken={refreshtoken}", HttpMethodEnum.POST, new { });
+                var rv = await WtmBlazor.Api.CallAPI<DynamicData>($"/api/_Account/RefreshToken?refreshToken={refreshtoken}", HttpMethodEnum.POST, new { });
                 if (rv.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var t = rv.Data.Fields["access_token"].ToString();
                     var r = rv.Data.Fields["refresh_token"].ToString();
                     await SetToken(t, r);
-                    var userinfo = await WtmBlazor.Api.CallAPI<LoginUserInfo>("/api/Account/CheckUserInfo", HttpMethodEnum.GET, new { });
+                    var userinfo = await WtmBlazor.Api.CallAPI<LoginUserInfo>("/api/_Account/CheckUserInfo", HttpMethodEnum.GET, new { });
 
                     if (userinfo.StatusCode == System.Net.HttpStatusCode.OK)
                     {
@@ -77,7 +110,7 @@
                     }
                     else
                     {
-                        await WtmBlazor.Message(color: Color.Danger, contetn: rv.Errors.Message[0]);
+                        //await WtmBlazor.Message(color: Color.Danger, contetn: rv.Errors.Message[0]);
 
                         hasToken = false;
                     }
