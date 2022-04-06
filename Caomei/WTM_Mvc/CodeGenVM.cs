@@ -1827,7 +1827,7 @@ namespace Caomei.Mvc
                 for (int i = 0; i < pros_IsBatchField.Count; i++)
                 {
                     var str = string.Empty;
-                    var item = pros_IsSearcherField[i];
+                    var item = pros_IsBatchField[i];
                     string valueType = "";
                     var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
                     var display = modelType.GetSingleProperty(item.FieldName).GetCustomAttribute<DisplayAttribute>();
