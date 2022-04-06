@@ -1745,7 +1745,7 @@ namespace Caomei.Mvc
                     str=
                         $"    readonly {item.FieldName}_Filter: WTM_EntitiesField = {{"+
                         Environment.NewLine+
-                        $"        name: ['Entity', '{item.FieldName}'],"+
+                        $"        name: '{item.FieldName}',"+
                         Environment.NewLine+
                         $"        label: '{displayname}',"+
                         Environment.NewLine+
