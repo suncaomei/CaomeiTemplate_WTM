@@ -26,13 +26,17 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('Controller', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('Controller', 'Controller', $event)"
               >预览</el-button
             >
           </el-col>
           <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
             <label
-              >{{ data.ControllerDir }}\{{ data.ModelName }}Controller.cs</label
+              >{{ data.ControllerDir }}\_{{
+                data.ModelName
+              }}Controller.cs</label
             >
           </el-col>
         </el-row>
@@ -48,7 +52,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('CrudVM', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('CrudVM', 'ViewModel', $event)"
               >预览</el-button
             >
           </el-col>
@@ -58,7 +64,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('ListVM', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('ListVM', 'ViewModel', $event)"
               >预览</el-button
             >
           </el-col>
@@ -68,7 +76,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('BatchVM', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('BatchVM', 'ViewModel', $event)"
               >预览</el-button
             >
           </el-col>
@@ -78,7 +88,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('ImportVM', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('ImportVM', 'ViewModel', $event)"
               >预览</el-button
             >
           </el-col>
@@ -88,7 +100,9 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-            <el-button type="text" @click="PreviewClick('Searcher', $event)"
+            <el-button
+              type="text"
+              @click="PreviewClick('Searcher', 'ViewModel', $event)"
               >预览</el-button
             >
           </el-col>
@@ -106,7 +120,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('Index', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('Index', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -116,7 +132,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('Create', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('Create', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -126,7 +144,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('Edit', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('Edit', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -136,7 +156,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('Details', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('Details', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -146,7 +168,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('Import', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('Import', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -156,7 +180,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('BatchEdit', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('BatchEdit', 'BlazorView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -175,7 +201,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('locales', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('locales', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -185,7 +213,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('index', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('index', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -197,7 +227,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('controller.entity', $event)"
+                @click="PreviewClick('controller.entity', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -209,7 +239,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('controller.index', $event)"
+                @click="PreviewClick('controller.index', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -222,7 +252,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.batchEdit', $event)"
+                @click="PreviewClick('views.batchEdit', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -234,7 +264,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.create', $event)"
+                @click="PreviewClick('views.create', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -246,7 +276,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.details', $event)"
+                @click="PreviewClick('views.details', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -256,7 +286,9 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
-              <el-button type="text" @click="PreviewClick('views.edit', $event)"
+              <el-button
+                type="text"
+                @click="PreviewClick('views.edit', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -268,7 +300,7 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.import', $event)"
+                @click="PreviewClick('views.import', 'VueView', $event)"
                 >预览</el-button
               >
             </el-col>
@@ -281,7 +313,13 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.widgets.actionViewIndex', $event)"
+                @click="
+                  PreviewClick(
+                    'views.widgets.actionViewIndex',
+                    'VueView',
+                    $event
+                  )
+                "
                 >预览</el-button
               >
             </el-col>
@@ -294,7 +332,11 @@
               <el-button
                 type="text"
                 @click="
-                  PreviewClick('views.widgets.batchFormViewBatchEdit', $event)
+                  PreviewClick(
+                    'views.widgets.batchFormViewBatchEdit',
+                    'VueView',
+                    $event
+                  )
                 "
                 >预览</el-button
               >
@@ -310,7 +352,11 @@
               <el-button
                 type="text"
                 @click="
-                  PreviewClick('views.widgets.filterViewIndexSearcher', $event)
+                  PreviewClick(
+                    'views.widgets.filterViewIndexSearcher',
+                    'VueView',
+                    $event
+                  )
                 "
                 >预览</el-button
               >
@@ -325,7 +371,13 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.widgets.formViewCreateAdd', $event)"
+                @click="
+                  PreviewClick(
+                    'views.widgets.formViewCreateAdd',
+                    'VueView',
+                    $event
+                  )
+                "
                 >预览</el-button
               >
             </el-col>
@@ -338,7 +390,11 @@
               <el-button
                 type="text"
                 @click="
-                  PreviewClick('views.widgets.formViewDetailsDetail', $event)
+                  PreviewClick(
+                    'views.widgets.formViewDetailsDetail',
+                    'VueView',
+                    $event
+                  )
                 "
                 >预览</el-button
               >
@@ -353,7 +409,13 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.widgets.formViewEditEdit', $event)"
+                @click="
+                  PreviewClick(
+                    'views.widgets.formViewEditEdit',
+                    'VueView',
+                    $event
+                  )
+                "
                 >预览</el-button
               >
             </el-col>
@@ -365,7 +427,9 @@
             <el-col :xs="24" :sm="3" :md="3" :lg="3" :xl="3">
               <el-button
                 type="text"
-                @click="PreviewClick('views.widgets.gridViewIndex', $event)"
+                @click="
+                  PreviewClick('views.widgets.gridViewIndex', 'VueView', $event)
+                "
                 >预览</el-button
               >
             </el-col>
@@ -418,21 +482,24 @@ export default {
     onSubmit() {
       this.DoGen();
     },
-    PreviewClick(PreviewFile, event) {
+    PreviewClick(PreviewFile, PreviewFileName, event) {
       var formData = this.data;
       formData.PreviewFile = PreviewFile;
-      if (PreviewFile == "Controller") {
+      if (PreviewFileName == "Controller") {
         this.viewTitle = this.data.ModelName + "Controller.cs";
-      } else if (PreviewFile == "Searcher" || PreviewFile.includes("VM")) {
+      } else if (PreviewFileName == "ViewModel") {
         this.viewTitle =
-          this.data.ModelName + PreviewFile.replace("CrudVM", "VM") + ".cs"; //vm.ModelName + $"{(vm.IsApi == true ? "Api" : "")}" + vm.PreviewFile.Replace("CrudVM", "VM") + ".cs";
-      } else if (formData.UI == "Blazor") {
+          this.data.ModelName + PreviewFile.replace("CrudVM", "VM") + ".cs";
+      } else if (PreviewFileName == "BlazorView") {
         this.viewTitle = PreviewFile + ".razor";
-      } else if (formData.UI == "VUE") {
-        this.viewTitle = PreviewFile; //data.MainDir+"\ClientApp\src\pages\a"
+        formData.BlazorAndVue = "Blazor";
+      } else if (PreviewFileName == "VueView") {
+        this.viewTitle = PreviewFile;
+        formData.BlazorAndVue = "VUE";
       }
-      // formData.UI="Vue"
+
       this.PreviewPost(formData);
+
     },
     //判断字符是否为空的方法
     isEmpty(obj) {

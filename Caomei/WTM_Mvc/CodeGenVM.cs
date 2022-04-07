@@ -404,6 +404,12 @@ namespace Caomei.Mvc
             }
         }
 
+        [ValidateNever()]
+        public BlazorAndVueEnum BlazorAndVue { get; set; }
+
+        public enum BlazorAndVueEnum
+        { VUE, Blazor }
+
         protected override void InitVM()
         {
             //if (string.IsNullOrEmpty(SelectedModel) == false)
@@ -659,6 +665,9 @@ namespace Caomei.Mvc
                             if (proType.PropertyType.IsNullable())
                             {
                                 typename = proType.PropertyType.GetGenericArguments()[0].Name + "?";
+                            }
+                            else if (proType.PropertyType.IsBool())
+                            {
                             }
                             else if (proType.PropertyType != typeof(string))
                             {
@@ -2571,6 +2580,7 @@ namespace Caomei.Mvc
                         {
                             checktype = proType.GetGenericArguments()[0];
                         }
+
                         if (checktype == typeof(bool))
                         {
                             if (proType.IsNullable())

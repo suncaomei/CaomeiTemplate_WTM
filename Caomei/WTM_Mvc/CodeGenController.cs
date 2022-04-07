@@ -112,14 +112,32 @@ namespace Caomei.Mvc
                     code = vm.GenerateReactView(vm.PreviewFile);
                 }
             }
-            else if (vm.UI == UIEnum.VUE||vm.UI==UIEnum.BlazorAndVue)
+            else if (vm.UI == UIEnum.VUE)
             {
                 List<string> apineeded = new List<string>();
                 code = vm.GenerateVUEView(vm.PreviewFile, apineeded);
             }
-            else if (vm.UI == UIEnum.Blazor||vm.UI==UIEnum.BlazorAndVue)
+            else if (vm.UI == UIEnum.Blazor)
             {
                 code = vm.GenerateBlazorView(vm.PreviewFile);
+            }
+            else if (vm.UI==UIEnum.BlazorAndVue)
+            {
+                switch (vm.BlazorAndVue)
+                {
+                    case CodeGenVM.BlazorAndVueEnum.VUE:
+                        List<string> apineeded = new List<string>();
+                        code = vm.GenerateVUEView(vm.PreviewFile, apineeded);
+
+                        break;
+
+                    case CodeGenVM.BlazorAndVueEnum.Blazor:
+                        code = vm.GenerateBlazorView(vm.PreviewFile);
+                        break;
+
+                    default:
+                        break;
+                }
             }
             else if (vm.PreviewFile.EndsWith("View"))
             {
