@@ -230,9 +230,23 @@ namespace Caomei.Mvc
                     lv.RemoveAt(i);
                     i--;
                 }
+                if (lv[i].FieldName=="UpdateTime"||lv[i].FieldName=="UpdateBy")
+                {
+                    lv[i].IsImportField=false;
+                    lv[i].IsSearcherField=false;
+                    lv[i].IsFormField=false;
+                    lv[i].IsListField=false;
+                    lv[i].IsBatchField=false;
+                }
+                if (lv[i].FieldName=="CreateTime"||lv[i].FieldName=="CreateBy")
+                {
+                    lv[i].IsImportField=false;
+                    lv[i].IsFormField=false;
+                    lv[i].IsBatchField=false;
+                }
             }
 
-            return lv.AsQueryable().OrderBy(x => x.FieldName);
+            return lv.AsQueryable().OrderBy(x => x.ID);
         }
     }
 
