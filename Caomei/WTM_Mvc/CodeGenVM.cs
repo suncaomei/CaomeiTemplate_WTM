@@ -1698,7 +1698,6 @@ namespace Caomei.Mvc
                 StringBuilder fieldstr = new StringBuilder();
                 StringBuilder enumstr = new StringBuilder();
                 var pros_IsSearcherField = FieldInfos.Where(x => x.IsSearcherField == true).ToList();
-                var pros_IsListField = FieldInfos.Where(x => x.IsListField == true).ToList();
                 var pros_IsFormField = FieldInfos.Where(x => x.IsFormField == true).ToList();
                 var pros_IsBatchField = FieldInfos.Where(x => x.IsBatchField == true).ToList();
                 fieldstr.Append(Environment.NewLine);
@@ -1923,9 +1922,6 @@ namespace Caomei.Mvc
                 StringBuilder fieldstr = new StringBuilder();
                 StringBuilder fieldstr1 = new StringBuilder();
                 var pros_IsSearcherField = FieldInfos.Where(x => x.IsSearcherField == true).ToList();
-                var pros_IsListField = FieldInfos.Where(x => x.IsListField == true).ToList();
-                var pros_IsFormField = FieldInfos.Where(x => x.IsFormField == true).ToList();
-                var pros_IsBatchField = FieldInfos.Where(x => x.IsBatchField == true).ToList();
                 fieldstr.Append(Environment.NewLine);
                 for (int i = 0; i < pros_IsSearcherField.Count; i++)
                 {
@@ -1949,10 +1945,7 @@ namespace Caomei.Mvc
             {
                 StringBuilder fieldstr = new StringBuilder();
                 StringBuilder fieldstr1 = new StringBuilder();
-                var pros_IsSearcherField = FieldInfos.Where(x => x.IsSearcherField == true).ToList();
-                var pros_IsListField = FieldInfos.Where(x => x.IsListField == true).ToList();
                 var pros_IsFormField = FieldInfos.Where(x => x.IsFormField == true).ToList();
-                var pros_IsBatchField = FieldInfos.Where(x => x.IsBatchField == true).ToList();
                 fieldstr.Append(Environment.NewLine);
                 for (int i = 0; i < pros_IsFormField.Count; i++)
                 {
@@ -1980,16 +1973,12 @@ namespace Caomei.Mvc
             {
                 StringBuilder fieldstr = new StringBuilder();
                 StringBuilder fieldstr1 = new StringBuilder();
-                var pros_IsSearcherField = FieldInfos.Where(x => x.IsSearcherField == true).ToList();
                 var pros_IsListField = FieldInfos.Where(x => x.IsListField == true).ToList();
-                var pros_IsFormField = FieldInfos.Where(x => x.IsFormField == true).ToList();
-                var pros_IsBatchField = FieldInfos.Where(x => x.IsBatchField == true).ToList();
-
                 fieldstr.Append(Environment.NewLine);
                 for (int i = 0; i < pros_IsListField.Count; i++)
                 {
                     var str = string.Empty;
-                    var item = pros_IsBatchField[i];
+                    var item = pros_IsListField[i];
                     var display = modelType.GetSingleProperty(item.FieldName).GetCustomAttribute<DisplayAttribute>();
                     var displayname = display is null ? $"{ModelName}_{item.FieldName}" : display.Name.Replace(".", "_");
 
