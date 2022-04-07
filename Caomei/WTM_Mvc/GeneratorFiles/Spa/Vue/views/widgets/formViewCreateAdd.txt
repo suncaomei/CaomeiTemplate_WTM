@@ -47,6 +47,7 @@ export default class extends mixins(PageDetailsBasics) {
       Entity: {
 $fields1$        
     },
+$fields2$        
   };
   
   async onFinish(values) {

@@ -1750,26 +1750,61 @@ namespace Caomei.Mvc
                     {
                         valueType="text";
                     }
-                    str=
-                        $"    readonly {item.FieldName}_Filter: WTM_EntitiesField = {{"+
-                        Environment.NewLine+
-                        $"        name: '{item.FieldName}',"+
-                        Environment.NewLine+
-                        $"        label: '{displayname}',"+
-                        Environment.NewLine+
-                        $"        valueType: WTM_ValueType.{valueType},"+
-                        Environment.NewLine+
-                        "    }";
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
+                        var url = $"/api/_{area}/{ModelName}/Get{subtype.Name}s";
+
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                $"    readonly {item.FieldName}_Filter: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: '{fk}',"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                        else
+                        {
+                            str=
+                                $"    readonly Selected{item.FieldName}IDs_Filter: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: 'Selected{item.FieldName}IDs',"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        fieldProps: {{ mode: 'tags' }},"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"    readonly {item.FieldName}_Filter: WTM_EntitiesField = {{"+
+                            Environment.NewLine+
+                            $"        name: '{item.FieldName}',"+
+                            Environment.NewLine+
+                            $"        label: '{displayname}',"+
+                            Environment.NewLine+
+                            $"        valueType: WTM_ValueType.{valueType},"+
+                            Environment.NewLine+
+                            "    }";
+                    }
 
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
-
-                    //readonly Ziduan1Add: WTM_EntitiesField = {
-                    //    name: ['Entity', 'Ziduan1'],
-                    //    label: '_Model_$modelname$_ziduan1',
-                    //    valueType: WTM_ValueType.text,
-                    //}
-                    //
                 }
                 for (int i = 0; i < pros_IsFormField.Count; i++)
                 {
@@ -1811,26 +1846,75 @@ namespace Caomei.Mvc
                     {
                         valueType="text";
                     }
-                    str=
-                        $"    readonly {item.FieldName}_Form: WTM_EntitiesField = {{"+
-                        Environment.NewLine+
-                        $"        name: ['Entity', '{item.FieldName}'],"+
-                        Environment.NewLine+
-                        $"        label: '{displayname}',"+
-                        Environment.NewLine+
-                        $"        valueType: WTM_ValueType.{valueType},"+
-                        Environment.NewLine+
-                        "    }";
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
+                        var url = $"/api/_{area}/{ModelName}/Get{subtype.Name}s";
 
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                $"    readonly {item.FieldName}_Form: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: ['Entity', '{item.FieldName}'],"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        fieldProps: {{ mode: 'tags' }},"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                        else
+                        {
+                            str=
+                                $"    readonly Selected{item.FieldName}IDs_Form: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: ['Entity', 'Selected{item.FieldName}IDs'],"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        fieldProps: {{ mode: 'tags' }},"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }"+
+                                $"    readonly {item.FieldName}_Detail: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: ['Entity', '{item.FieldName}'],"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        fieldProps: {{ mode: 'tags' }},"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.checkbox,"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"    readonly {item.FieldName}_Form: WTM_EntitiesField = {{"+
+                            Environment.NewLine+
+                            $"        name: ['Entity', '{item.FieldName}'],"+
+                            Environment.NewLine+
+                            $"        label: '{displayname}',"+
+                            Environment.NewLine+
+                            $"        valueType: WTM_ValueType.{valueType},"+
+                            Environment.NewLine+
+                            "    }";
+                    }
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
-
-                    //readonly Ziduan1Add: WTM_EntitiesField = {
-                    //    name: ['Entity', 'Ziduan1'],
-                    //    label: '_Model_$modelname$_ziduan1',
-                    //    valueType: WTM_ValueType.text,
-                    //}
-                    //
                 }
                 for (int i = 0; i < pros_IsBatchField.Count; i++)
                 {
@@ -1872,26 +1956,61 @@ namespace Caomei.Mvc
                     {
                         valueType="text";
                     }
-                    str=
-                        $"    readonly {item.FieldName}_LinkedVM: WTM_EntitiesField = {{"+
-                        Environment.NewLine+
-                        $"        name: ['LinkedVM', '{item.FieldName}'],"+
-                        Environment.NewLine+
-                        $"        label: '{displayname}',"+
-                        Environment.NewLine+
-                        $"        valueType: WTM_ValueType.{valueType},"+
-                        Environment.NewLine+
-                        "    }";
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
+                        var url = $"/api/_{area}/{ModelName}/Get{subtype.Name}s";
+
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                $"    readonly {item.FieldName}_LinkedVM: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: ['LinkedVM', '{fk}'],"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                        else
+                        {
+                            str=
+                                $"    readonly Selected{item.FieldName}IDs_LinkedVM: WTM_EntitiesField = {{"+
+                                Environment.NewLine+
+                                $"        name: ['LinkedVM', 'Selected{item.FieldName}IDs'],"+
+                                Environment.NewLine+
+                                $"        label: '{displayname}',"+
+                                Environment.NewLine+
+                                $"        fieldProps: {{ mode: 'tags' }},"+
+                                Environment.NewLine+
+                                $"        request: async () => FieldRequest('{url}'),"+
+                                Environment.NewLine+
+                                $"        valueType: WTM_ValueType.{valueType},"+
+                                Environment.NewLine+
+                                "    }";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"    readonly {item.FieldName}_LinkedVM: WTM_EntitiesField = {{"+
+                            Environment.NewLine+
+                            $"        name: ['LinkedVM', '{item.FieldName}'],"+
+                            Environment.NewLine+
+                            $"        label: '{displayname}',"+
+                            Environment.NewLine+
+                            $"        valueType: WTM_ValueType.{valueType},"+
+                            Environment.NewLine+
+                            "    }";
+                    }
 
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
-
-                    //readonly Ziduan1Add: WTM_EntitiesField = {
-                    //    name: ['Entity', 'Ziduan1'],
-                    //    label: '_Model_$modelname$_ziduan1',
-                    //    valueType: WTM_ValueType.text,
-                    //}
-                    //
                 }
                 return rv.Replace("$fields$", fieldstr.ToString());
             }
@@ -1909,15 +2028,57 @@ namespace Caomei.Mvc
                     var str = string.Empty;
                     var str1 = string.Empty;
                     var item = pros_IsBatchField[i];
-                    str=
-                        $"        <a-col :span=\"12\">"+
-                        Environment.NewLine+
-                        $"           <WtmField entityKey=\"{item.FieldName}_LinkedVM\"/>"+
-                        Environment.NewLine+
-                        $"        </a-col>";
+                    List<PropertyInfo> existSubPro = new List<PropertyInfo>();
+                    string newname = item.FieldName;
+                    var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
+                    if (proType== typeof(FileAttachment))
+                    {
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
 
-                    str1=
-                        $"        {item.FieldName}: undefined,";
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                $"        <a-col :span=\"12\">"+
+                                Environment.NewLine+
+                                //$"           <WtmField entityKey=\"{item.FieldName}Id_LinkedVM\"/>"+
+                                $"           <WtmField entityKey=\"{fk}_LinkedVM\"/>"+
+                                Environment.NewLine+
+                                $"        </a-col>";
+
+                            str1=
+                                //$"        {item.FieldName}Id: undefined,";
+                                $"        {fk}: undefined,";
+                        }
+                        else
+                        {
+                            str=
+                                $"        <a-col :span=\"12\">"+
+                                Environment.NewLine+
+                                $"           <WtmField entityKey=\"Selected{item.FieldName}IDs_LinkedVM\"/>"+
+                                Environment.NewLine+
+                                $"        </a-col>";
+
+                            str1=
+                                $"        Selected{item.FieldName}IDs: undefined,";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"        <a-col :span=\"12\">"+
+                            Environment.NewLine+
+                            $"           <WtmField entityKey=\"{item.FieldName}_LinkedVM\"/>"+
+                            Environment.NewLine+
+                            $"        </a-col>";
+
+                        str1=
+                            $"        {item.FieldName}: undefined,";
+                    }
 
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
@@ -1937,10 +2098,42 @@ namespace Caomei.Mvc
                     var str = string.Empty;
                     var str1 = string.Empty;
                     var item = pros_IsSearcherField[i];
-                    str=
-                        $"    <WtmField entityKey=\"{item.FieldName}_Filter\" />";
-                    str1=
-                        $"        {item.FieldName}: undefined,";
+                    List<PropertyInfo> existSubPro = new List<PropertyInfo>();
+                    string newname = item.FieldName;
+                    var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
+                    if (proType== typeof(FileAttachment))
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                //$"    <WtmField entityKey=\"{item.FieldName}Id_Filter\" />";
+                                $"    <WtmField entityKey=\"{fk}_Filter\" />";
+                            str1=
+                                //$"        {item.FieldName}Id: undefined,";
+                                $"        {fk}: undefined,";
+                        }
+                        else
+                        {
+                            str=
+                            $"    <WtmField entityKey=\"Selected{item.FieldName}IDs_Filter\" />";
+                            str1=
+                                $"        Selected{item.FieldName}IDs: [],";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"    <WtmField entityKey=\"{item.FieldName}_Filter\" />";
+                        str1=
+                            $"        {item.FieldName}: undefined,";
+                    }
 
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
@@ -1954,29 +2147,71 @@ namespace Caomei.Mvc
             {
                 StringBuilder fieldstr = new StringBuilder();
                 StringBuilder fieldstr1 = new StringBuilder();
+                StringBuilder fieldstr2 = new StringBuilder();
                 var pros_IsFormField = FieldInfos.Where(x => x.IsFormField == true).ToList();
                 fieldstr.Append(Environment.NewLine);
                 for (int i = 0; i < pros_IsFormField.Count; i++)
                 {
                     var str = string.Empty;
                     var str1 = string.Empty;
+                    var str2 = string.Empty;
                     var item = pros_IsFormField[i];
-                    str=
-                        $"      <a-col :span=\"12\">"+
-                        Environment.NewLine+
-                        $"         <WtmField entityKey=\"{item.FieldName}_Form\"/>"+
-                        Environment.NewLine+
-                        $"      </a-col>";
+                    List<PropertyInfo> existSubPro = new List<PropertyInfo>();
+                    string newname = item.FieldName;
+                    var houzhui = "Form";
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        var fk = DC.GetFKName2(modelType, item.FieldName);
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            str=
+                                $"      <a-col :span=\"12\">"+
+                                Environment.NewLine+
+                                //$"         <WtmField entityKey=\"{item.FieldName}Id_{houzhui}\"/>"+
+                                $"         <WtmField entityKey=\"{fk}_{houzhui}\"/>"+
+                                Environment.NewLine+
+                                $"      </a-col>";
+                            str1=
+                                //$"        {item.FieldName}Id: undefined,";
+                                $"        {fk}: undefined,";
+                        }
+                        else
+                        {
+                            if (name == "views.widgets.formViewDetailsDetail")
+                            {
+                                houzhui="Detail";
+                            }
+                            str=
+                            $"      <a-col :span=\"12\">"+
+                            Environment.NewLine+
+                            $"         <WtmField entityKey=\"Selected{item.FieldName}IDs_{houzhui}\"/>"+
+                            Environment.NewLine+
+                            $"      </a-col>";
+                            str2=
+                                $"    Selected{item.FieldName}IDs: [],";
+                        }
+                    }
+                    else
+                    {
+                        str=
+                            $"      <a-col :span=\"12\">"+
+                            Environment.NewLine+
+                            $"         <WtmField entityKey=\"{item.FieldName}_{houzhui}\"/>"+
+                            Environment.NewLine+
+                            $"      </a-col>";
 
-                    str1=
-                        $"        {item.FieldName}: undefined,";
-
+                        str1=
+                            $"        {item.FieldName}: undefined,";
+                    }
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
                     fieldstr1.Append(str1);
                     fieldstr1.Append(Environment.NewLine);
+                    fieldstr2.Append(str2);
+                    fieldstr2.Append(Environment.NewLine);
                 }
-                return rv.Replace("$fields$", fieldstr.ToString()).Replace("$fields1$ ", fieldstr1.ToString());
+                return rv.Replace("$fields$", fieldstr.ToString()).Replace("$fields1$ ", fieldstr1.ToString()).Replace("$fields2$ ", fieldstr2.ToString());
             }
             if (name == "views.widgets.gridViewIndex")
             {
@@ -1990,8 +2225,46 @@ namespace Caomei.Mvc
                     var item = pros_IsListField[i];
                     var display = modelType.GetSingleProperty(item.FieldName).GetCustomAttribute<DisplayAttribute>();
                     var displayname = display is null ? $"{ModelName}_{item.FieldName}" : display.Name.Replace(".", "_");
+                    List<PropertyInfo> existSubPro = new List<PropertyInfo>();
+                    string newname = item.FieldName;
+                    var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
+                    if (proType== typeof(FileAttachment))
+                    {
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(item.RelatedField) == false)
+                    {
+                        var subtype = Type.GetType(item.RelatedField);
+                        string prefix = "";
 
-                    str=
+                        if (string.IsNullOrEmpty(item.SubIdField) == true)
+                        {
+                            var fk = DC.GetFKName2(modelType, item.FieldName);
+                            var subpro = subtype.GetSingleProperty(item.SubField);
+                            existSubPro.Add(subpro);
+                            int count = existSubPro.Where(x => x.Name == subpro.Name).Count();
+                            if (count > 1)
+                            {
+                                prefix = count + "";
+                            }
+                            newname = item.SubField + "_view" + prefix;
+                            str=
+                            $"      {{"+
+                            Environment.NewLine+
+                            $"        headerName:'{displayname}',"+
+                            Environment.NewLine+
+                            $"        field: \"{newname}\","+
+                            Environment.NewLine+
+                            $"      }},";
+                        }
+                        else
+                        {
+                            //////////这里list的多对多没时间弄
+                        }
+                    }
+                    else
+                    {
+                        str=
                         $"      {{"+
                         Environment.NewLine+
                         $"        headerName:'{displayname}',"+
@@ -1999,6 +2272,8 @@ namespace Caomei.Mvc
                         $"        field: \"{item.FieldName}\","+
                         Environment.NewLine+
                         $"      }},";
+                    }
+
                     fieldstr.Append(str);
                     fieldstr.Append(Environment.NewLine);
                 }
@@ -2115,6 +2390,8 @@ namespace Caomei.Mvc
                     string sitems = "";
                     string bindfield = "";
                     string ph = "";
+                    string render = "";
+
                     var item = pros2[i];
                     if (item.SubField == "`file")
                     {
@@ -2154,11 +2431,11 @@ namespace Caomei.Mvc
                         {
                             if (controltype == "Select")
                             {
-                                apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                apis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                             }
                             else
                             {
-                                multiapis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                multiapis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                             }
                         }
                     }
@@ -2194,9 +2471,10 @@ namespace Caomei.Mvc
                     if (controltype == "Select" || controltype == "MultiSelect")
                     {
                         ph = "PlaceHolder=\"@WtmBlazor.Localizer[\"Sys.All\"]\"";
+                        render = "ShowSearch=\"true\"";
                     }
                     fieldstr2.Append($@"
-            <{controltype} @bind-Value=""@SearchModel.{bindfield}"" {sitems} {ph}/>");
+            <{controltype} @bind-Value=""@SearchModel.{bindfield}"" {sitems} {ph} {render}/>");
                 }
 
                 StringBuilder apiinit = new StringBuilder();
@@ -2287,11 +2565,11 @@ namespace Caomei.Mvc
                             {
                                 if (controltype == "Select")
                                 {
-                                    apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    apis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                                 }
                                 else
                                 {
-                                    multiapis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                    multiapis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                                 }
                             }
                         }
@@ -2334,6 +2612,7 @@ namespace Caomei.Mvc
                     if (controltype == "Select" || controltype == "MultiSelect")
                     {
                         ph = "PlaceHolder=\"@WtmBlazor.Localizer[\"Validate.PleaseSelect\"]\"";
+                        render = "ShowSearch=\"true\"";
                     }
                     if (controltype == "DateTimePicker")
                     {
@@ -2390,6 +2669,7 @@ namespace Caomei.Mvc
                     string sitems = "";
                     string bindfield = "";
                     string disabled = "";
+
                     var property = modelType.GetSingleProperty(item.FieldName);
 
                     if (string.IsNullOrEmpty(item.RelatedField) == false)
@@ -2429,7 +2709,7 @@ namespace Caomei.Mvc
                             sitems = $"Lookup=\"@{tempname}\"";
                             if (apis.ContainsKey(tempname) == false)
                             {
-                                apis.Add(tempname, $"/api/{ModelName}/Get{subtype.Name}s");
+                                apis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                             }
                         }
                     }
@@ -2562,11 +2842,11 @@ namespace Caomei.Mvc
                             {
                                 if (controltype == "Select")
                                 {
-                                    apis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
+                                    apis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                                 }
                                 else
                                 {
-                                    multiapis.Add(tempname, $"/api/{Area}/{ModelName}/Get{subtype.Name}s");
+                                    multiapis.Add(tempname, $"/api{area}{ModelName}/Get{subtype.Name}s");
                                 }
                             }
                         }

@@ -10,7 +10,26 @@
           <el-table-column label="序号" type="index" />
           <el-table-column prop="FieldName" label="字段名称" />
           <el-table-column prop="FieldDes" label="字段描述" />
-          <el-table-column prop="SubIdField" label="关联字段" />
+          <!-- <el-table-column prop="SubIdField" label="关联表显示字段" /> -->
+          <el-table-column label="关联表显示字段">
+            <template #default="scope">
+              <!-- <el-switch v-model="scope.row.SubIdField" /> -->
+              <el-select
+                v-show="!isEmpty(scope.row.LinkedType)"
+                v-model="scope.row.SubField"
+                class="m-2"
+                placeholder="请选择关联表显示字段"
+                size="large"
+              >
+                <el-option
+                  v-for="item in scope.row.SubFieldOptions"
+                  :key="item.Value"
+                  :label="item.Text"
+                  :value="item.Value"
+                />
+              </el-select>
+            </template>
+          </el-table-column>
           <el-table-column label="搜索条件">
             <template #default="scope">
               <el-switch v-model="scope.row.IsSearcherField" />
@@ -51,6 +70,7 @@ export default {
     return {
       formInline: {},
       entity: [],
+      options: [],
     };
   },
   components: {},
@@ -58,6 +78,14 @@ export default {
     Gen() {
       var FieldInfos = [];
       for (var i = 0; i < this.entity.length; i++) {
+        if (!this.isEmpty(this.entity[i].LinkedType)) {
+          if (this.isEmpty(this.entity[i].SubField)) {
+            this.$message.error(this.entity[i].FieldName + "关联显示字段未填");
+
+            return;
+          }
+        }
+
         FieldInfos.push({
           FieldName: this.entity[i].FieldName,
           FieldDes: this.entity[i].FieldDes,
@@ -71,7 +99,7 @@ export default {
           RelatedField: this.entity[i].LinkedType,
         });
       }
-      this.formInline.FieldInfos=FieldInfos;
+      this.formInline.FieldInfos = FieldInfos;
       this.$router.push({
         name: "Gen",
         params: {
@@ -103,6 +131,7 @@ export default {
     } else {
       this.formInline = JSON.parse(this.$route.params.formInline);
       this.entity = JSON.parse(this.$route.params.entity);
+      this.options = this.entity.SubFieldOptions;
     }
   },
 };

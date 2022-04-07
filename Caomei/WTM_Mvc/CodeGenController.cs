@@ -50,6 +50,7 @@ namespace Caomei.Mvc
         {
             var vm = Wtm.CreateVM<CodeGenListVM>();
             vm.ModelFullName=post.SelectedModel;
+            vm.SetDC();
             return Ok(vm.GetJson(enumToString: false));
         }
 

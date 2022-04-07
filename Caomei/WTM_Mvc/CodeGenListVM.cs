@@ -1,6 +1,7 @@
 using Caomei.Core;
 using Caomei.Core.Attributes;
 using Caomei.Core.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,11 +29,14 @@ namespace Caomei.Mvc
                 this.MakeGridHeader(x => x.FieldName),
                 this.MakeGridHeader(x => x.FieldDes),
                 this.MakeGridHeader(x => x.SubField),
+                this.MakeGridHeader(x => x.SubIdField),
                 this.MakeGridHeader(x => x.IsSearcherField),
                 this.MakeGridHeader(x => x.IsListField),
                 this.MakeGridHeader(x => x.IsFormField),
                 this.MakeGridHeader(x => x.IsBatchField),
                 this.MakeGridHeader(x => x.IsImportField),
+                this.MakeGridHeader(x => x.LinkedType),
+                this.MakeGridHeader(x => x.SubFieldOptions),
           };
         }
 
@@ -46,10 +50,8 @@ namespace Caomei.Mvc
             return val + $"<input type='hidden' name='{fieldname}' value='{val}' />";
         }
 
-        private string subField(string fieldname, CodeGenListView entity)
+        private CodeGenListView subField(CodeGenListView entity)
         {
-            string rv = $"<input type='hidden' name='{fieldname}.RelatedField' value='{entity.LinkedType}' />";
-            rv += $"<input type='hidden' name='{fieldname}.SubIdField' value='{entity.SubIdField}' />";
             if (string.IsNullOrEmpty(entity.LinkedType) == false)
             {
                 var linktype = Type.GetType(entity.LinkedType);
@@ -65,17 +67,32 @@ namespace Caomei.Mvc
                     {
                         subpros.Add(new ComboSelectListItem { Text = "Id", Value = "Id" });
                     }
-                    rv += UIService.MakeCombo(fieldname + ".SubField", subpros);
+                    entity.SubFieldOptions=subpros;
                 }
                 else
                 {
-                    rv += $"<input type='hidden' name='{fieldname}.SubField' value='`file' />";
+                    entity.SubField="file";
                 }
             }
-            return rv;
+            return entity;
         }
 
-        // public override IOrderedQueryable<FrameworkUser_View> GetSearchQuery()
+        public void SetDC()
+        {
+            if (string.IsNullOrEmpty(ModelFullName) == false)
+            {
+                foreach (var item in ConfigInfo.Connections)
+                {
+                    var dc = item.CreateDC();
+                    Type t = typeof(DbSet<>).MakeGenericType(Type.GetType(ModelFullName));
+                    var exist = dc.GetType().GetSingleProperty(x => x.PropertyType == t);
+                    if (exist != null)
+                    {
+                        this.DC = dc;
+                    }
+                }
+            }
+        }
 
         public override IOrderedQueryable<CodeGenListView> GetSearchQuery()
         {
@@ -161,12 +178,14 @@ namespace Caomei.Mvc
                             view.FieldDes += $"({MvcProgram._localizer["Codegen.OneToMany"]})";
                         }
                         view.LinkedType = checktype.AssemblyQualifiedName;
+                        view  = subField(view);
                         if (fk != null)
                         {
                             if (modeltype.GetSingleProperty(fk) == null)
                             {
-                                view.FieldDes = $"<font color='#ff0000'>(Error:Can't find {fk.Replace("ID", "Id")} in {checktype.Name})</font>";
+                                view.FieldDes = $"(Error:Can't find {fk.Replace("ID", "Id")} in {checktype.Name})";
                             }
+                            //view.SubField=fk;
                         }
                     }
                     if (checktype.IsList())
@@ -197,6 +216,8 @@ namespace Caomei.Mvc
                                         view.LinkedType = subchecktype.AssemblyQualifiedName;
                                         var fk = DC.GetFKName2(checktype, spro.Name);
                                         view.SubIdField = fk;
+                                        view  = subField(view);
+
                                         show = true;
                                         if (checktype.GetSingleProperty(fk) == null)
                                         {
@@ -269,6 +290,8 @@ namespace Caomei.Mvc
 
         [Display(Name = "Codegen.SubField")]
         public string SubField { get; set; }
+
+        public List<ComboSelectListItem> SubFieldOptions { get; set; }
 
         public string SubIdField { get; set; }
 
