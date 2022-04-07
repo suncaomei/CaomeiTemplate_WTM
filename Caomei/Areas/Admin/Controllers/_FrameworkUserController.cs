@@ -147,7 +147,7 @@ namespace Caomei.Admin.Controllers
         [HttpGet("GetFrameworkRoles")]
         public ActionResult GetFrameworkRoles()
         {
-            return Ok(DC.Set<FrameworkRole>().GetSelectListItems(Wtm, x => x.RoleName));
+            return Ok(DC.Set<FrameworkRole>().GetSelectListItems(Wtm, x => Localizer[x.RoleName]));
         }
 
         [HttpGet("GetFrameworkGroups")]

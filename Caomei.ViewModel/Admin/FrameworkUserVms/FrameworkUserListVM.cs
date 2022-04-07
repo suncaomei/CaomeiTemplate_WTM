@@ -40,9 +40,9 @@ namespace Caomei.ViewModel.Admin.FrameworkUserVMs
                     Gender = x.Gender,
                     CellPhone = x.CellPhone,
                     FrameworkUser_Role = DC.Set<FrameworkUserRole>().Where(y => y.UserCode == x.ITCode)
-                        .Join(DC.Set<FrameworkRole>(), ur => ur.RoleCode, role => role.RoleCode, (ur, role) => role).Select(y0 => y0.RoleName).ToSepratedString(null, ","),
+                        .Join(DC.Set<FrameworkRole>(), ur => ur.RoleCode, role => role.RoleCode, (ur, role) => role).Select(y0 => Localizer[y0.RoleName]).ToSepratedString(null, ","),
                     FrameworkUser_Group = DC.Set<FrameworkUserGroup>().Where(y => y.UserCode == x.ITCode)
-                        .Join(DC.Set<FrameworkGroup>(), ug => ug.GroupCode, group => group.GroupCode, (ug, group) => group).Select(y0 => y0.GroupName).ToSepratedString(null, ","),
+                        .Join(DC.Set<FrameworkGroup>(), ug => ug.GroupCode, group => group.GroupCode, (ug, group) => group).Select(y0 => Localizer[y0.GroupName]).ToSepratedString(null, ","),
                     IsValid = x.IsValid,
                     PhotoId = x.PhotoId,
                 })
