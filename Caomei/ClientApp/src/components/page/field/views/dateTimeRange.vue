@@ -4,11 +4,11 @@
   </template>
   <template v-else>
     <a-range-picker
-      :show-time="{ format: 'HH:mm' }"
-      format="YYYY-MM-DD HH:mm"
+      show-time
       v-model:value="value"
       :disabled="disabled"
       v-bind="_fieldProps"
+      style="width: 250px;"
     />
   </template>
 </template>
