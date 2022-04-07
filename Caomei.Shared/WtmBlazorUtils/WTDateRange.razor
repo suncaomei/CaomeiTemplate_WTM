@@ -3,7 +3,7 @@
 @inject WtmBlazorContext WtmBlazor
 @using System.Linq.Expressions;
 
-<DateTimeRange @ref="dt" Value="innerValue" OnConfirm="SetDate" OnClearValue="SetDate" DisplayText="@LabelText"/>
+<DateTimeRange @ref="dt" Value="innerValue" OnConfirm="SetDate" OnClearValue="SetDate" DisplayText="@LabelText" ShowSidebar="true" ShowToday="true" />
 
 @code{
 
