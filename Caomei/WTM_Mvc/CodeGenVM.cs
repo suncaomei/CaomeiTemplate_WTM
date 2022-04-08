@@ -1713,6 +1713,7 @@ namespace Caomei.Mvc
                 for (int i = 0; i < pros_IsSearcherField.Count; i++)
                 {
                     var str = string.Empty;
+                    var strEnum = string.Empty;
                     var item = pros_IsSearcherField[i];
                     string valueType = "";
                     var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
@@ -1730,6 +1731,27 @@ namespace Caomei.Mvc
                     else if (checktype.IsEnum())
                     {
                         valueType="select";
+                        var EnumValues = checktype.GetEnumValues();
+                        var strenumid = string.Empty;
+                        foreach (var value in EnumValues)
+                        {
+                            strenumid+=
+                                $"                // {{ label: $i18n.t($locales.中英文显示), value: '{value}' }},"+
+                                System.Environment.NewLine+
+                                $"                 {{ label: {value}, value: '{value}' }},"+
+                                System.Environment.NewLine;
+                        }
+                        strEnum=
+                            $"        request: async (formState) => {{"+
+                            System.Environment.NewLine+
+                            $"            return ["+
+                            System.Environment.NewLine+
+                            strenumid+
+                            $"            ]"+
+                            System.Environment.NewLine+
+                            $"        }},"
+
+                            ;
                     }
                     else if (checktype == typeof(DateTime))
                     {
@@ -1758,8 +1780,10 @@ namespace Caomei.Mvc
 
                         if (string.IsNullOrEmpty(item.SubIdField) == true)
                         {
+                            valueType="select";
+
                             str=
-                                $"    readonly {item.FieldName}_Filter: WTM_EntitiesField = {{"+
+                                $"    readonly {fk}_Filter: WTM_EntitiesField = {{"+
                                 Environment.NewLine+
                                 $"        name: '{fk}',"+
                                 Environment.NewLine+
@@ -1769,6 +1793,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                         else
@@ -1786,6 +1811,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                     }
@@ -1800,6 +1826,7 @@ namespace Caomei.Mvc
                             Environment.NewLine+
                             $"        valueType: WTM_ValueType.{valueType},"+
                             Environment.NewLine+
+                            strEnum+
                             "    }";
                     }
 
@@ -1811,6 +1838,7 @@ namespace Caomei.Mvc
                     var str = string.Empty;
                     var item = pros_IsFormField[i];
                     string valueType = "";
+                    var strEnum = string.Empty;
                     var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
                     var display = modelType.GetSingleProperty(item.FieldName).GetCustomAttribute<DisplayAttribute>();
                     var displayname = display is null ? $"{ModelName}_{item.FieldName}" : display.Name.Replace(".", "_");
@@ -1826,6 +1854,27 @@ namespace Caomei.Mvc
                     else if (checktype.IsEnum())
                     {
                         valueType="select";
+                        var EnumValues = checktype.GetEnumValues();
+                        var strenumid = string.Empty;
+                        foreach (var value in EnumValues)
+                        {
+                            strenumid+=
+                                $"                // {{ label: $i18n.t($locales.中英文显示), value: '{value}' }},"+
+                                System.Environment.NewLine+
+                                $"                 {{ label: {value}, value: '{value}' }},"+
+                                System.Environment.NewLine;
+                        }
+                        strEnum=
+                            $"        request: async (formState) => {{"+
+                            System.Environment.NewLine+
+                            $"            return ["+
+                            System.Environment.NewLine+
+                            strenumid+
+                            $"            ]"+
+                            System.Environment.NewLine+
+                            $"        }},"
+
+                            ;
                     }
                     else if (checktype == typeof(DateTime))
                     {
@@ -1851,22 +1900,21 @@ namespace Caomei.Mvc
                         var subtype = Type.GetType(item.RelatedField);
                         var fk = DC.GetFKName2(modelType, item.FieldName);
                         var url = $"/api/_{area}/{ModelName}/Get{subtype.Name}s";
-
+                        valueType="select";
                         if (string.IsNullOrEmpty(item.SubIdField) == true)
                         {
                             str=
-                                $"    readonly {item.FieldName}_Form: WTM_EntitiesField = {{"+
+                                $"    readonly {fk}_Form: WTM_EntitiesField = {{"+
                                 Environment.NewLine+
-                                $"        name: ['Entity', '{item.FieldName}'],"+
+                                $"        name: ['Entity', '{fk}'],"+
                                 Environment.NewLine+
                                 $"        label: '{displayname}',"+
-                                Environment.NewLine+
-                                $"        fieldProps: {{ mode: 'tags' }},"+
                                 Environment.NewLine+
                                 $"        request: async () => FieldRequest('{url}'),"+
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                         else
@@ -1884,6 +1932,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }"+
                                 $"    readonly {item.FieldName}_Detail: WTM_EntitiesField = {{"+
                                 Environment.NewLine+
@@ -1897,6 +1946,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.checkbox,"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                     }
@@ -1911,6 +1961,7 @@ namespace Caomei.Mvc
                             Environment.NewLine+
                             $"        valueType: WTM_ValueType.{valueType},"+
                             Environment.NewLine+
+                            strEnum+
                             "    }";
                     }
                     fieldstr.Append(str);
@@ -1921,6 +1972,7 @@ namespace Caomei.Mvc
                     var str = string.Empty;
                     var item = pros_IsBatchField[i];
                     string valueType = "";
+                    var strEnum = string.Empty;
                     var proType = modelType.GetSingleProperty(item.FieldName)?.PropertyType;
                     var display = modelType.GetSingleProperty(item.FieldName).GetCustomAttribute<DisplayAttribute>();
                     var displayname = display is null ? $"{ModelName}_{item.FieldName}" : display.Name.Replace(".", "_");
@@ -1936,6 +1988,27 @@ namespace Caomei.Mvc
                     else if (checktype.IsEnum())
                     {
                         valueType="select";
+                        var EnumValues = checktype.GetEnumValues();
+                        var strenumid = string.Empty;
+                        foreach (var value in EnumValues)
+                        {
+                            strenumid+=
+                                $"                // {{ label: $i18n.t($locales.中英文显示), value: '{value}' }},"+
+                                System.Environment.NewLine+
+                                $"                 {{ label: {value}, value: '{value}' }},"+
+                                System.Environment.NewLine;
+                        }
+                        strEnum=
+                            $"        request: async (formState) => {{"+
+                            System.Environment.NewLine+
+                            $"            return ["+
+                            System.Environment.NewLine+
+                            strenumid+
+                            $"            ]"+
+                            System.Environment.NewLine+
+                            $"        }},"
+
+                            ;
                     }
                     else if (checktype == typeof(DateTime))
                     {
@@ -1961,11 +2034,12 @@ namespace Caomei.Mvc
                         var subtype = Type.GetType(item.RelatedField);
                         var fk = DC.GetFKName2(modelType, item.FieldName);
                         var url = $"/api/_{area}/{ModelName}/Get{subtype.Name}s";
+                        valueType="select";
 
                         if (string.IsNullOrEmpty(item.SubIdField) == true)
                         {
                             str=
-                                $"    readonly {item.FieldName}_LinkedVM: WTM_EntitiesField = {{"+
+                                $"    readonly {fk}_LinkedVM: WTM_EntitiesField = {{"+
                                 Environment.NewLine+
                                 $"        name: ['LinkedVM', '{fk}'],"+
                                 Environment.NewLine+
@@ -1975,6 +2049,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                         else
@@ -1992,6 +2067,7 @@ namespace Caomei.Mvc
                                 Environment.NewLine+
                                 $"        valueType: WTM_ValueType.{valueType},"+
                                 Environment.NewLine+
+                                strEnum+
                                 "    }";
                         }
                     }
@@ -2006,6 +2082,7 @@ namespace Caomei.Mvc
                             Environment.NewLine+
                             $"        valueType: WTM_ValueType.{valueType},"+
                             Environment.NewLine+
+                            strEnum+
                             "    }";
                     }
 
