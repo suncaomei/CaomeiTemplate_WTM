@@ -1,7 +1,7 @@
 ﻿
 <template>
   <WtmDetails :queryKey="queryKey" :loading="Entities.loading" :onFinish="onFinish">
-    <div style="margin-bottom:10px;"><i18n-t :keypath="$locales.SysBatchEditConfirm" /></div>
+    <div style="margin-bottom:10px;"><i18n-t :keypath="$locales.Sys_BatchEditConfirm" /></div>
       <a-row :gutter="6">
 $fields$        
       </a-row>
