@@ -131,7 +131,7 @@ namespace Caomei.ViewModel.Admin.ViewModels.FrameworkMenuVMs
                                 menu.PageName = action.ActionDes?.Description ?? action.ActionName;
                                 menu.ModuleName = action.Module.ModuleName;
                                 menu.ActionName = action.ActionDes?.Description ?? action.ActionName;
-                                menu.Url = action.Url;
+                                menu.Url = action.Url.ToLower();
                                 menu.ClassName = action.Module.FullName;
                                 menu.MethodName = action.MethodName;
                                 menu.ID = aid;
@@ -163,6 +163,7 @@ namespace Caomei.ViewModel.Admin.ViewModels.FrameworkMenuVMs
                 FC.Add("Entity.Children[0].MethodName", 0);
                 FC.Add("Entity.Children[0].Url", 0);
             }
+            Entity.Url = string.IsNullOrEmpty(Entity.Url) ? Entity.Url : Entity.Url.ToLower();
             base.DoEdit(updateAllFields);
             List<Guid> guids = new List<Guid>();
             guids.Add(Entity.ID);
@@ -228,7 +229,7 @@ namespace Caomei.ViewModel.Admin.ViewModels.FrameworkMenuVMs
                                 menu.PageName = action.ActionDes?.Description ?? action.ActionName;
                                 menu.ModuleName = action.Module.ModuleName;
                                 menu.ActionName = action.ActionDes?.Description ?? action.ActionName;
-                                menu.Url = action.Url;
+                                menu.Url = action.Url.ToLower();
                                 menu.ClassName = action.Module.FullName;
                                 menu.MethodName = action.MethodName;
                                 Entity.Children.Add(menu);
@@ -242,6 +243,7 @@ namespace Caomei.ViewModel.Admin.ViewModels.FrameworkMenuVMs
                     Entity.Url = null;
                 }
             }
+            Entity.Url = string.IsNullOrEmpty(Entity.Url) ? Entity.Url : Entity.Url.ToLower();
             base.DoAdd();
             List<Guid> guids = new List<Guid>();
             guids.Add(Entity.ID);
