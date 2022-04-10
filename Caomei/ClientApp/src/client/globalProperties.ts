@@ -43,19 +43,67 @@ AjaxBasics.onNProgress = function (type) {
         NProgress.start();
     }
 }
+// AjaxBasics.onError = function (error) {
+//     console.error("LENG ~ error", error)
+//     if (lodash.get(error, 'status') === 401) {
+//         return $System.UserController.onLogOut(false)
+//     }
+//     const Message = lodash.get(error, 'response.Message', []);
+//     if (Message.length) {
+//         notification.error({
+//             message: i18n.global.t($locales.tips_error_operation),
+//             description: lodash.join(Message, '\n')
+//         })
+//     }
+// }
 AjaxBasics.onError = function (error) {
-    console.error("LENG ~ error", error)
-    if (lodash.get(error, 'status') === 401) {
-        return $System.UserController.onLogOut(false)
+    console.error("LENG ~ error", error);
+    let msg;
+  
+    switch (error.status) {
+      case 400:
+        msg = i18n.global.t($locales.tips_status_400);
+        break;
+      case 401:
+        return $System.UserController.onLogOut(false);
+      case 403:
+        msg = i18n.global.t($locales.tips_status_403);
+        console.log(msg);
+        break;
+      case 404:
+        msg = i18n.global.t($locales.tips_status_404);
+        break;
+      case 408:
+        msg = i18n.global.t($locales.tips_status_408);
+        break;
+      case 500:
+        msg = i18n.global.t($locales.tips_status_500);
+        break;
+      case 501:
+        msg = i18n.global.t($locales.tips_status_501);
+        break;
+      case 502:
+        msg = i18n.global.t($locales.tips_status_502);
+        break;
+      case 503:
+        msg = i18n.global.t($locales.tips_status_503);
+        break;
+      case 504:
+        msg = i18n.global.t($locales.tips_status_504);
+        break;
+      case 505:
+        msg = i18n.global.t($locales.tips_status_505);
+        break;
+      default:
+        msg = `连接出错(${error.status})!`;
     }
-    const Message = lodash.get(error, 'response.Message', []);
+    const Message = lodash.get(error, "response.Message", []);
     if (Message.length) {
-        notification.error({
-            message: i18n.global.t($locales.tips_error_operation),
-            description: lodash.join(Message, '\n')
-        })
+      msg = message + "\n" + Message;
     }
-}
+    message.error(msg);
+  };
+  
 export const $Ajax = new AjaxBasics({ target: $WtmConfig.target })
 export function FieldRequest(request: string | AjaxRequest) {
     return $Ajax.request<any>(request).pipe(map(value => {
