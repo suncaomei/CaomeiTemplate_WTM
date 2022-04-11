@@ -24,4 +24,6 @@
 9.重新设计了代码生成器 支持vue和blazor
 
 
-示例网站:https://caomei.in/
+示例网站:
+balzor-wasm:http://blazor.demo.caomei.in/
+vue:http://vue.demo.caomei.in/
