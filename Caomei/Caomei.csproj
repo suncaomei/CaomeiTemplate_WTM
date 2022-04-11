@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+	  <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
   </PropertyGroup>
 
 
@@ -17,6 +18,7 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="WTM_Mvc\GeneratorFiles\**" />
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +30,9 @@
 	  <Content Update="wwwroot\_codegen\**\*" CopyToPublishDirectory="Never" />
 	  <!--<Content Update="appsettings.json" CopyToPublishDirectory="Never" />-->
 	  <Content Update="wwwroot\images\**\*" CopyToPublishDirectory="Never" />
+	  <Content Update="ClientApp\**\*" CopyToPublishDirectory="Never" />
+	  <Content Update="ClientApp_CodeGen\**\*" CopyToPublishDirectory="Never" />
+
   </ItemGroup>
 
 

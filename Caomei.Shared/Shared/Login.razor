@@ -43,12 +43,14 @@
 
     protected override void OnInitialized()
     {
-        if (WtmBlazor.ConfigInfo.IsQuickDebug == true)
-        {
-            Model.ITCode = "admin";
-            Model.Password = "000000";
-        }
+        //if (WtmBlazor.ConfigInfo.IsQuickDebug == true)
+        //{
+        //    Model.ITCode = "admin";
+        //    Model.Password = "000000";
+        //}
         Title = $"Caomei - {WtmBlazor.Localizer["Sys.Login"]}";
+                    Model.ITCode = "admin";
+            Model.Password = "000000";
 
         base.OnInitialized();
     }
@@ -84,7 +86,7 @@
 
     private void Reg()
     {
-        NavigationManager.NavigateTo("/Reg");
+        NavigationManager.NavigateTo("/Reg",true);
 
     } }
 
