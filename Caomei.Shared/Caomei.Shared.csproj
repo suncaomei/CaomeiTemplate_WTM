@@ -6,10 +6,10 @@
 
 
   <ItemGroup>
-    <PackageReference Include="BootstrapBlazor" Version="6.3.4" />
+    <PackageReference Include="BootstrapBlazor" Version="6.5.0" />
     <PackageReference Include="BootstrapBlazor.Chart" Version="6.0.0" />
-    <PackageReference Include="BootstrapBlazor.Markdown" Version="6.0.0" />
+    <PackageReference Include="BootstrapBlazor.Markdown" Version="6.0.3" />
     <ProjectReference Include="..\Caomei.ViewModel\Caomei.ViewModel.csproj" />
-  </ItemGroup >
+  </ItemGroup>
 </Project>
 
