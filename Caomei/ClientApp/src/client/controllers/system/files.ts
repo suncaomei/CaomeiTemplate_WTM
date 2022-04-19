@@ -22,7 +22,7 @@ export class FilesController {
         },
         getFileName: {
             url: "/api/_file/GetFileName/{Id}",
-            method: "get",            
+            method: "get",
             responseType: "text"
         },
         fileGet: {
@@ -42,7 +42,7 @@ export class FilesController {
      * @returns 
      */
     getUploadUrl() {
-        return this.options.fileUpload.url
+        return globalProperties.$WtmConfig.target + this.options.fileUpload.url
     }
     /**
      * 删除文件
@@ -58,8 +58,8 @@ export class FilesController {
      * @param body 
      * @returns 
      */
-    getFileName(id){
-        return this.$ajax.request(lodash.assign({body:{ Id:id }}, this.options.getFileName)).toPromise()
+    getFileName(id) {
+        return this.$ajax.request(lodash.assign({ body: { Id: id } }, this.options.getFileName)).toPromise()
     }
     /**
     * 获取文件
