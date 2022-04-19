@@ -132,7 +132,8 @@ namespace Caomei.Core.Support.FileHandlers
             {
                 dc = _wtm.CreateDC();
             }
-            rv = dc.Set<FileAttachment>().CheckID(id).Select(x => new FileAttachment
+            var defaultDC = _wtm.CreateDC(false, "default");
+            rv = defaultDC.Set<FileAttachment>().CheckID(id).Select(x => new FileAttachment
             {
                 ID = x.ID,
                 ExtraInfo = x.ExtraInfo,
@@ -145,7 +146,7 @@ namespace Caomei.Core.Support.FileHandlers
             }).FirstOrDefault();
             if (rv != null && withData == true)
             {
-                var fh = CreateFileHandler(rv.SaveMode, dc);
+                var fh = CreateFileHandler(rv.SaveMode, defaultDC);
                 rv.DataStream = fh.GetFileData(rv);
             }
             return rv;
@@ -158,7 +159,9 @@ namespace Caomei.Core.Support.FileHandlers
             {
                 dc = _wtm.CreateDC();
             }
-            file = dc.Set<FileAttachment>().CheckID(id)
+            var defaultDC = _wtm.CreateDC(false, "default");
+
+            file = defaultDC.Set<FileAttachment>().CheckID(id)
                 .Select(x => new FileAttachment
                 {
                     ID = x.ID,
@@ -175,9 +178,9 @@ namespace Caomei.Core.Support.FileHandlers
             {
                 try
                 {
-                    dc.Set<FileAttachment>().Remove(file);
-                    dc.SaveChanges();
-                    var fh = CreateFileHandler(file.SaveMode, dc);
+                    defaultDC.Set<FileAttachment>().Remove(file);
+                    defaultDC.SaveChanges();
+                    var fh = CreateFileHandler(file.SaveMode, defaultDC);
                     fh.DeleteFile(file);
                 }
                 catch { }
@@ -191,7 +194,9 @@ namespace Caomei.Core.Support.FileHandlers
             {
                 dc = _wtm.CreateDC();
             }
-            rv = dc.Set<FileAttachment>().CheckID(id).Select(x => x.FileName).FirstOrDefault();
+            var defaultDC = _wtm.CreateDC(false, "default");
+
+            rv = defaultDC.Set<FileAttachment>().CheckID(id).Select(x => x.FileName).FirstOrDefault();
             return rv;
         }
     }
