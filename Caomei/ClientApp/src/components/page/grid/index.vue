@@ -5,6 +5,7 @@
       :columnDefs="getColumnDefs"
       :rowData="Pagination.dataSource"
       :gridOptions="options"
+      
     />
   </div>
   <a-divider />
@@ -58,9 +59,10 @@ export default class Grid extends Vue {
       this.columnDefs,
       getColumnDefsAction(this.gridOptions.frameworkComponents)
     );
-  }
 
+  }
   get options(): GridOptions {
+
     const { frameworkComponents = {}, ...gridOptions } = this.gridOptions;
     const options: GridOptions = this.lodash.assign(
       {
@@ -114,13 +116,14 @@ export default class Grid extends Vue {
         if (this.isAutoSizeColumn && this.Pagination.dataSource.length > 0) {
           // event.columnApi.autoSizeAllColumns(true)
           event.api.sizeColumnsToFit();
-          // event.columnApi.autoSizeColumn("RowAction");
           this.isAutoSizeColumn = false;
+          this.ColumnApi?.autoSizeColumn("RowAction");
         }
         lodash.invoke(this.gridOptions, "onRowDataChanged", event);
       }, 300),
     }
   };
+
   /**
    * 计算 表格高度
    */

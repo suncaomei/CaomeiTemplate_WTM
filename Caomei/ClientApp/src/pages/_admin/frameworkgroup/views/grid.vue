@@ -25,14 +25,15 @@ export default class extends Vue {
     },
   ];
   get gridOptions(): GridOptions {
+
+
     return {
       frameworkComponents: {
         RowAction: this.__wtmToRowAction(RowAction, this.PageController),
       },
     };
   }
-  created() { }
+  created() {}
 }
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

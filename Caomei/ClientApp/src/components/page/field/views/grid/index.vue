@@ -16,6 +16,7 @@
       :rowData="rowData"
       :columnDefs="columnDefs"
       :gridOptions="gridOptions"
+
     />
     <a-list size="small" bordered :data-source="dataError" v-show="dataError.length">
       <template #renderItem="{ item }">
@@ -68,6 +69,7 @@ export default class extends mixins(FieldBasics) {
     return this.value || [];
   }
   get columnDefs(): (ColDef | ColGroupDef)[] {
+
     let columnDefs = this.lodash.concat<ColDef | ColGroupDef>(
       [{ field: "_rowKey", headerName: "No", width: 80, editable: false }],
       this.lodash.get(this._fieldProps, "columnDefs")

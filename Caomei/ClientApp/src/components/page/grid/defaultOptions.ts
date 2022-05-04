@@ -59,7 +59,7 @@ export default (i18n: VueI18n) => {
 
 /**
  * 行 操作
- * @param frameworkComponents 
+ * @param frameworkComponents
  */
 export function getColumnDefsAction(frameworkComponents): (ColGroupDef | ColDef)[] {
     if (lodash.has(frameworkComponents, 'RowAction')) {
@@ -80,7 +80,7 @@ export function getColumnDefsAction(frameworkComponents): (ColGroupDef | ColDef)
 }
 /**
  * 行 头部选择框
- * @param checkboxSelection 
+ * @param checkboxSelection
  */
 export function getColumnDefsCheckbox(checkboxSelection, theme: 'balham' | 'alpine' | 'material'): (ColGroupDef | ColDef)[] {
     if (lodash.eq(checkboxSelection, false)) {
